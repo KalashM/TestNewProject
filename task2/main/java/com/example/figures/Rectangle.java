@@ -59,7 +59,7 @@ public class Rectangle {
     public void show() {
         String position = "(" + this.x + ", " + this.y + ")";
         double area = this.area();
-        System.out.println("Object type: " + this.type + ".\nObject coordinates: " + position + ".\nObject area: " + area + ".");
+        System.out.println("Object type: " + this.type + ". Object coordinates: " + position + ". Object area: " + area + ".");
     }
     public double area() {
         return width * height;
