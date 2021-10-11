@@ -19,6 +19,11 @@ public class Square extends Rectangle {
     }
 
     @Override
+    public String getType() {
+        return this.type;
+    }
+
+    @Override
     public double area() {
         return side * side;
     }

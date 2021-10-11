@@ -40,6 +40,10 @@ public class Rectangle {
         return y;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public void setWidth(double width) {
         this.width = width;
     }
