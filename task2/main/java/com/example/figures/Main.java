@@ -10,16 +10,17 @@ public class Main {
             triangle.move(5,5);
             triangle.zoomPercentage(50);
             triangle.show();
-        } else
+        } else {
             System.out.println("The triangle does not exist");
+        }
 
         System.out.println("----- New Square and Rectangle creation: -------");
-        Rectangle rec[] = new Rectangle[10];
+        Rectangle[] rec = new Rectangle[10];
         for (int i = 0; i <= 4; i++) {
-            rec[i] = new Rectangle(i+1, i+2, i+3, i+4);
+            rec[i] = new Rectangle(i + 1, i + 2, i + 3, i + 4);
         }
         for (int i = 5; i <= 9; i++) {
-            rec[i] = new Square(i, i+2, i+3);
+            rec[i] = new Square(i, i + 2, i + 3);
         }
         for (int i = 0; i <= 9; i++) {
             rec[i].show();

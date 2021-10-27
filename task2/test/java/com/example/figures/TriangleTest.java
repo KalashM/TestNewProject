@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TriangleTest {
-    private Triangle triangle1 ;
+    private Triangle triangle1;
     private Triangle triangleNotExist;
 
     @Before
@@ -16,23 +16,24 @@ public class TriangleTest {
         triangleNotExist = new Triangle(1,1,18,1,1);
     }
 
-
     @Test
     public void ifExistsTestTrue() {
         boolean resut = triangle1.ifExists();
         assertEquals(true, resut);
     }
+
     @Test
     public void ifExistsTestFalse() {
         boolean resut = triangleNotExist.ifExists();
         assertEquals(false, resut);
     }
+
     @Test
     public void showTest() {
         //String triangleType = triangle1.getType();
-        assertEquals("Triangle" , triangle1.getType());
+        assertEquals("Triangle", triangle1.getType());
         assertEquals("X coordinate: ",0, triangle1.getX());
-        assertEquals( "Y coordinate: ",0, triangle1.getY());
+        assertEquals("Y coordinate: ",0, triangle1.getY());
         assertEquals(3, triangle1.getSide1(),0);
         assertEquals(4, triangle1.getSide2(),0);
         assertEquals(5, triangle1.getSide3(),0);

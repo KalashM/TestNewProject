@@ -21,10 +21,10 @@ public class Rectangle {
 
     /**
      * Constructor - creation of a new object with particular parameters
-     * @param width - rectangle width
-     * @param height - rectangle height
-     * @param x - rectangle X coordinate
-     * @param y - rectangle Y coordinate
+     * @param width rectangle width
+     * @param height rectangle height
+     * @param x rectangle X coordinate
+     * @param y rectangle Y coordinate
      * @see Rectangle#Rectangle()
      * @see Rectangle#Rectangle(double, double)
      * @see Rectangle#Rectangle(int, int)
@@ -35,11 +35,13 @@ public class Rectangle {
         this.x = x;
         this.y = y;
     }
-    public Rectangle(double width, double height){
+
+    public Rectangle(double width, double height) {
         this.height = height;
         this.width = width;
     }
-    public Rectangle(int x, int y){
+
+    public Rectangle(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -79,33 +81,41 @@ public class Rectangle {
     public void setY(int y) {
         this.y = y;
     }
+
     /** Method displays object's information - type, area and coordinates
      */
+
     public void show() {
         String position = "(" + this.x + ", " + this.y + ")";
         double area = this.area();
         System.out.println("Object type: " + this.type + ". Object coordinates: " + position + ". Object area: " + area + ".");
     }
+
     /** Method returns object area
      * @return object area
      */
+
     public double area() {
         return width * height;
     }
+
     /** Method moves object to the new coordinates
-     * @param x - new X coordinate
-     * @param y - new Y coordinate
+     * @param x new X coordinate
+     * @param y new Y coordinate
      */
+
     public void move(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
     /** Method zoom/scale object
-     * @param percent - value in %
+     * @param percent value in %
      */
+
     public void zoomPercentage(int percent) {
-        this.height = height*percent/100;
-        this.width = width*percent/100;
+        this.height = height * percent / 100;
+        this.width = width * percent / 100;
     }
 
 }

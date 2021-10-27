@@ -26,9 +26,9 @@ public class SquareTest {
 
     @Test
     public void testShow() {
-        assertEquals("Square" , square.getType());
+        assertEquals("Square", square.getType());
         assertEquals("X coordinate: ",0, square.getX());
-        assertEquals( "Y coordinate: ",2, square.getY());
+        assertEquals("Y coordinate: ",2, square.getY());
         assertEquals(5, square.getSide(),0);
     }
 }

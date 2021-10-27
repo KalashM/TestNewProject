@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class RectangleTest {
 
-    private Rectangle rectangle ;
+    private Rectangle rectangle;
 
     @Before
     public void setUp() throws Exception {
@@ -16,11 +16,12 @@ public class RectangleTest {
 
     @Test
     public void testShow() {
-        assertEquals("Rectangle" , rectangle.getType());
+        assertEquals("Rectangle", rectangle.getType());
         assertEquals("X coordinate: ",1, rectangle.getX());
-        assertEquals( "Y coordinate: ",1, rectangle.getY());
+        assertEquals("Y coordinate: ",1, rectangle.getY());
         assertEquals(6, rectangle.getHeight(),0);
-        assertEquals(3, rectangle.getWidth(),0);}
+        assertEquals(3, rectangle.getWidth(),0);
+    }
 
     @Test
     public void testArea() {

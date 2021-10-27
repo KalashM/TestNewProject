@@ -1,5 +1,6 @@
 package com.example.figures;
-
+/** <strong>Square</strong> class is a child of Rectangle class
+ */
 public class Square extends Rectangle {
 
     private double side;
@@ -23,22 +24,29 @@ public class Square extends Rectangle {
         return this.type;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public double area() {
         return side * side;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public void zoomPercentage(int percent) {
-        this.side = side*percent/100;
+        this.side = side * percent / 100;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
-    public void show(){
+    public void show() {
         String position = "(" + super.getX() + ", " + super.getY() + ")";
         double area = this.area();
         System.out.println("Object type: " + this.type + ". Object coordinates: " + position + ". Object area: " + area + ".");
     }
-
-
 }

@@ -10,6 +10,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'java'
     id 'application'
+    id 'checkstyle'
 }
 
 repositories {
@@ -27,4 +28,17 @@ jar {
         attributes 'Main-Class': 'com.example.figures.Main'
     }
     from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}
+sourceSets {
+    main {
+        java {
+            srcDir 'task2/main/java/com/example/figures'
+        }
+    }
+}
+
+task myJavadocs(type: Javadoc) {
+    // likely this
+    classpath = sourceSets.main.runtimeClasspath
+    destinationDir = reporting.file("docs")
 }
