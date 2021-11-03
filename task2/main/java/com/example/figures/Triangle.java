@@ -2,8 +2,11 @@ package com.example.figures;
 
 public class Triangle {
 
-    private double side1, side2, side3;
-    private int x, y;
+    private double side1;
+    private double side2;
+    private double side3;
+    private int x;
+    private int y;
     private final String type = "Triangle";
 
     public Triangle(double side1, double side2, double side3, int x, int y) {

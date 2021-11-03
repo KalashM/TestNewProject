@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-        <!DOCTYPE module PUBLIC
-                "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
-                "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 
 <module name="Checker">
 
@@ -13,10 +13,10 @@
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
     <module name="FileLength"/>
 
-    <module name="LineLength">
-        <property name="fileExtensions" value="java"/>
-        <property name="max" value="120"/>
-    </module>
+    <!--    <module name="LineLength">-->
+    <!--        <property name="fileExtensions" value="java"/>-->
+    <!--        <property name="max" value="120"/>-->
+    <!--    </module>-->
     <!-- Checks for Headers                                -->
     <!-- See http://checkstyle.sf.net/config_header.html   -->
     <!-- <module name="Header"> -->
@@ -54,8 +54,8 @@
         <!-- Checks for Size Violations.                    -->
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
         <!--<module name="LineLength"/>-->
-        <module name="MethodLength"/>
-        <module name="ParameterNumber"/>
+        <!--        <module name="MethodLength"/>-->
+        <!--        <module name="ParameterNumber"/>-->
 
         <!-- Checks for whitespace                               -->
         <!-- See http://checkstyle.sf.net/config_whitespace.html -->
@@ -92,7 +92,7 @@
         <!--<module name="MagicNumber"/>-->
         <module name="MissingSwitchDefault"/>
         <!--<module name="SimplifyBooleanExpression"/>-->
-        <module name="SimplifyBooleanReturn"/>
+<!--        <module name="SimplifyBooleanReturn"/>-->
 
         <!-- Checks for class design                         -->
         <!-- See http://checkstyle.sf.net/config_design.html -->

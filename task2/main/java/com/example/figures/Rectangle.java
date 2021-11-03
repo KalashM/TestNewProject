@@ -7,7 +7,8 @@ package com.example.figures;
 public class Rectangle {
     private double width;
     private double height;
-    private int x, y;
+    private int x;
+    private int y;
     private final String type = "Rectangle";
 
     /**

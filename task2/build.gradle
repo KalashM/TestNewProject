@@ -36,9 +36,13 @@ sourceSets {
         }
     }
 }
-
-task myJavadocs(type: Javadoc) {
-    // likely this
-    classpath = sourceSets.main.runtimeClasspath
-    destinationDir = reporting.file("docs")
+javadoc {
+    classpath += sourceSets.test.compileClasspath
+    source += sourceSets.test.allJava
+    destinationDir = reporting.file("task2/build/docs/javadoc")
+}
+task checkstyle(type: Checkstyle) {
+    configFile file('../config/checkstyle/checkstyle.xml')
+    source 'main/java'
+    classpath = files()
 }
