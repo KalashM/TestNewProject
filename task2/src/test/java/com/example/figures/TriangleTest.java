@@ -1,6 +1,6 @@
 package com.example.figures;
 
-import com.sun.xml.internal.fastinfoset.tools.TransformInputOutput;
+//import com.sun.xml.internal.fastinfoset.tools.TransformInputOutput;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,14 +18,14 @@ public class TriangleTest {
 
     @Test
     public void ifExistsTestTrue() {
-        boolean resut = triangle1.ifExists();
-        assertEquals(true, resut);
+        boolean result = triangle1.ifExists();
+        assertEquals(true, result);
     }
 
     @Test
     public void ifExistsTestFalse() {
-        boolean resut = triangleNotExist.ifExists();
-        assertEquals(false, resut);
+        boolean result = triangleNotExist.ifExists();
+        assertEquals(false, result);
     }
 
     @Test
