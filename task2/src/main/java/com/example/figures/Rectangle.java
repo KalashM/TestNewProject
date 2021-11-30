@@ -1,10 +1,7 @@
 package com.example.figures;
-/**Class <strong>Rectangle</strong> allows to create a rectangle,
- * get its main characteristics such as <b>width</b>, <b>height</b>, etc..
- * @author - Marina Panchenko
- * @version - 1.0
- */
-public class Rectangle {
+
+public class Rectangle implements Figure {
+
     private double width;
     private double height;
     private int x;
@@ -67,52 +64,20 @@ public class Rectangle {
         return type;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    /** Method displays object's information - type, area and coordinates
-     */
-
     public void show() {
         String position = "(" + this.x + ", " + this.y + ")";
-        double area = this.area();
+        double area = this.getArea();
         System.out.println("Object type: " + this.type + ". Object coordinates: " + position + ". Object area: " + area + ".");
     }
 
-    /** Method returns object area
-     * @return object area
-     */
-
-    public double area() {
+    public double getArea() {
         return width * height;
     }
-
-    /** Method moves object to the new coordinates
-     * @param x new X coordinate
-     * @param y new Y coordinate
-     */
 
     public void move(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
-    /** Method zoom/scale object
-     * @param percent value in %
-     */
 
     public void zoomPercentage(int percent) {
         this.height = height * percent / 100;

@@ -6,26 +6,25 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class SquareTest {
-    private Square square;
-
-    @Before
-    public void setUp() throws Exception {
-        square = new Square(5, 0,2);
-    }
-
     @Test
     public void testArea() {
-        assertEquals(25, square.area(), 0);
+        Square square = new Square(5, 0,2);
+
+        assertEquals(25, square.getArea(), 0);
     }
 
     @Test
     public void testZoomPercentage() {
+        Square square = new Square(5, 0,2);
+
         square.zoomPercentage(300);
         assertEquals(15, square.getSide(), 0);
     }
 
     @Test
     public void testShow() {
+        Square square = new Square(5, 0,2);
+
         assertEquals("Square", square.getType());
         assertEquals("X coordinate: ",0, square.getX());
         assertEquals("Y coordinate: ",2, square.getY());

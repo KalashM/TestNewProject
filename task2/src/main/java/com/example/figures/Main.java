@@ -1,29 +1,28 @@
 package com.example.figures;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Main {
+    @SuppressWarnings("checkstyle:MemberName")
+    private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) {
 
-        System.out.println("----- New Triangle creation: -------");
-        Triangle triangle = new Triangle(3,4,5,0,0);
-        if (triangle.ifExists()) {
-            triangle.show();
-            triangle.move(5,5);
-            triangle.zoomPercentage(50);
-            triangle.show();
-        } else {
-            System.out.println("The triangle does not exist");
-        }
+//        System.out.println("----- New figures creation: -------");
+        LOGGER.info("----- New figures creation started: -------");
+        Figure[] f = new Figure[3];
+        f[0] = new Triangle(3,4,5,0,0);
+        f[1] = new Rectangle(2, 6,5,5);
+        f[2] = new Square(5, 20,20);
 
-        System.out.println("----- New Square and Rectangle creation: -------");
-        Rectangle[] rec = new Rectangle[10];
-        for (int i = 0; i <= 4; i++) {
-            rec[i] = new Rectangle(i + 1, i + 2, i + 3, i + 4);
-        }
-        for (int i = 5; i <= 9; i++) {
-            rec[i] = new Square(i, i + 2, i + 3);
-        }
-        for (int i = 0; i <= 9; i++) {
-            rec[i].show();
+        LOGGER.info("----- Figures manipulations started: -------");
+        for (Figure figure : f) {
+            figure.getType();
+            figure.getArea();
+            figure.move(1, 1);
+            figure.zoomPercentage(125);
+            figure.show();
         }
     }
 }

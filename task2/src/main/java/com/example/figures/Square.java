@@ -1,7 +1,7 @@
 package com.example.figures;
 /** <strong>Square</strong> class is a child of Rectangle class
  */
-public class Square extends Rectangle {
+public class Square extends Rectangle implements Figure {
 
     private double side;
     private final String type = "Square";
@@ -28,7 +28,7 @@ public class Square extends Rectangle {
      * {@inheritdoc}
      */
     @Override
-    public double area() {
+    public double getArea() {
         return side * side;
     }
 
@@ -46,7 +46,7 @@ public class Square extends Rectangle {
     @Override
     public void show() {
         String position = "(" + super.getX() + ", " + super.getY() + ")";
-        double area = this.area();
+        double area = this.getArea();
         System.out.println("Object type: " + this.type + ". Object coordinates: " + position + ". Object area: " + area + ".");
     }
 }
