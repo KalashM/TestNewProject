@@ -20,18 +20,14 @@ public class Square extends Rectangle implements Figure {
         return side;
     }
 
-    public void setSide(double side) {
-        this.side = side;
-    }
-
     @Override
     public String getType() {
         return this.type;
     }
-
     /**
      * {@inheritdoc}
      */
+
     @Override
     public double getArea() {
         return side * side;

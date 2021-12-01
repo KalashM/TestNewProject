@@ -13,21 +13,11 @@ public class Rectangle implements Figure {
     private final String type = "Rectangle";
 
     /**
-     * Constructor - creation of a new object
-     * @see Rectangle#Rectangle(double, double, int, int)
-     * @see Rectangle#Rectangle(double, double)
-     * @see Rectangle#Rectangle(int, int)
-     */
-    public Rectangle() {
-    }
-
-    /**
      * Constructor - creation of a new object with particular parameters
      * @param width rectangle width
      * @param height rectangle height
      * @param x rectangle X coordinate
      * @param y rectangle Y coordinate
-     * @see Rectangle#Rectangle()
      * @see Rectangle#Rectangle(double, double)
      * @see Rectangle#Rectangle(int, int)
      */
