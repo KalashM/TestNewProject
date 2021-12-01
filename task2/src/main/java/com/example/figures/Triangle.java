@@ -1,7 +1,11 @@
 package com.example.figures;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Triangle implements Figure {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(Triangle.class);
     private double side1;
     private double side2;
     private double side3;
@@ -48,7 +52,8 @@ public class Triangle implements Figure {
     public void show() {
         String position = "(" + this.x + ", " + this.y + ")";
         double area = this.getArea();
-        System.out.println("Object type: " + type + ". Object coordinates: " + position + ". Object area: " + area + ".");
+        //System.out.println("Object type: " + type + ". Object coordinates: " + position + ". Object area: " + area + ".");
+        LOGGER.info("Object type: {} . Object coordinates: {}. Object area: {}.", type, position, area);
     }
 
     public double getArea() {

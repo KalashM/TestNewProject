@@ -1,7 +1,11 @@
 package com.example.figures;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Rectangle implements Figure {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(Rectangle.class);
     private double width;
     private double height;
     private int x;
@@ -67,7 +71,8 @@ public class Rectangle implements Figure {
     public void show() {
         String position = "(" + this.x + ", " + this.y + ")";
         double area = this.getArea();
-        System.out.println("Object type: " + this.type + ". Object coordinates: " + position + ". Object area: " + area + ".");
+        //System.out.println("Object type: " + this.type + ". Object coordinates: " + position + ". Object area: " + position + ".");
+        LOGGER.info("Object type: {} . Object coordinates: {}. Object area: {}.", this.type, position, area);
     }
 
     public double getArea() {
