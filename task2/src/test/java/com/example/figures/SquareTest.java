@@ -18,7 +18,7 @@ public class SquareTest {
         Square square = new Square(5, 0,2);
 
         square.zoomPercentage(300);
-        assertEquals(15, square.getSide(), 0);
+        assertEquals(15, square.getWidth(), 0);
     }
 
     @Test
@@ -28,6 +28,6 @@ public class SquareTest {
         assertEquals("Square", square.getType());
         assertEquals("X coordinate: ",0, square.getX());
         assertEquals("Y coordinate: ",2, square.getY());
-        assertEquals(5, square.getSide(),0);
+        assertEquals(5, square.getWidth(),0);
     }
 }

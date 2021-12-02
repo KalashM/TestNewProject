@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 public class Square extends Rectangle implements Figure {
 
     private static Logger LOGGER = LoggerFactory.getLogger(Square.class);
-    private double width;
     private final String type = "Square";
 
     public Square(double width, int x, int y) {
@@ -16,32 +15,12 @@ public class Square extends Rectangle implements Figure {
 //        this.width = width;
     }
 
-    public double getSide() {
-        return width;
-    }
-
     @Override
     public String getType() {
         return this.type;
     }
-    /**
-     * {@inheritdoc}
-     */
 
-    @Override
-    public double getArea() {
-        return width * width;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    @Override
-    public void zoomPercentage(int percent) {
-        this.width = width * percent / 100;
-    }
-
-    /**
+     /**
      * {@inheritdoc}
      */
     @Override
