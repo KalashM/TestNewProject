@@ -18,22 +18,10 @@ public class Rectangle implements Figure {
      * @param height rectangle height
      * @param x rectangle X coordinate
      * @param y rectangle Y coordinate
-     * @see Rectangle#Rectangle(double, double)
-     * @see Rectangle#Rectangle(int, int)
      */
     public Rectangle(double width, double height, int x, int y) {
         this.height = height;
         this.width = width;
-        this.x = x;
-        this.y = y;
-    }
-
-    public Rectangle(double width, double height) {
-        this.height = height;
-        this.width = width;
-    }
-
-    public Rectangle(int x, int y) {
         this.x = x;
         this.y = y;
     }

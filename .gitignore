@@ -2,7 +2,6 @@
 target/
 # Ignore Gradle project-specific cache directory
 .gradle
-gradle/
 gradlew
 gradlew.bat
 
@@ -13,4 +12,5 @@ MariTest.iml
 *.js
 *.zip
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.css
