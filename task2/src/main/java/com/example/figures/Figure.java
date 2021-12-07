@@ -17,6 +17,9 @@ public interface Figure {
      */
     double getArea();
 
+    int getX();
+
+    int getY();
     /** Method moves object to the new coordinates
      * @param x new X coordinate
      * @param y new Y coordinate

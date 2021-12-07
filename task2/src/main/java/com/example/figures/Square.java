@@ -12,7 +12,6 @@ public class Square extends Rectangle implements Figure {
 
     public Square(double width, int x, int y) {
         super(width, width, x, y);
-//        this.width = width;
     }
 
     @Override
