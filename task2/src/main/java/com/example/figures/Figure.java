@@ -27,6 +27,13 @@ public interface Figure {
 
     void move(int x, int y);
 
+    /** Method moves object to the new coordinates by delta
+     * @param xDelta delta for new X coordinate
+     * @param yDelta delta for new Y coordinate
+     */
+
+    void moveBy(int xDelta, int yDelta);
+
     /** Method zoom/scale object
      * @param percent value in %
      */

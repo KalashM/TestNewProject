@@ -26,7 +26,8 @@ public class Main {
         for (Figure figure : figures) {
             figure.getType();
             figure.getArea();
-            figure.move(figure.getX() + 1, figure.getY() + 1);
+            figure.move(1, 1);
+            figure.moveBy(2, 3);
             figure.zoomPercentage(125);
             figure.show();
         }

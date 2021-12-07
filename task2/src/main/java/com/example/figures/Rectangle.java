@@ -62,6 +62,11 @@ public class Rectangle implements Figure {
         this.y = y;
     }
 
+    public void moveBy(int xDelta, int yDelta) {
+        this.x = this.x + xDelta;
+        this.y = this.y + yDelta;
+    }
+
     public void zoomPercentage(int percent) {
         this.height = height * percent / 100;
         this.width = width * percent / 100;

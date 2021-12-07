@@ -66,6 +66,11 @@ public class Triangle implements Figure {
         this.y = y;
     }
 
+    public void moveBy(int xDelta, int yDelta) {
+        this.x = this.x + xDelta;
+        this.y = this.y + yDelta;
+    }
+
     public void zoomPercentage(int percent) {
         this.side1 = side1 * percent / 100;
         this.side2 = side2 * percent / 100;
