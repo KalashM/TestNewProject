@@ -1,2 +1,19 @@
 version = '1.0.0'
 apply plugin:'checkstyle'
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.arrays.Demo'
+    }
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+javadoc {
+    classpath += sourceSets.test.compileClasspath
+    source += sourceSets.test.allJava
+    destinationDir = reporting.file("task3/build/docs/javadoc")
+}
+task checkstyle(type: Checkstyle) {
+    configFile file('.../config/checkstyle/checkstyle.xml')
+    source 'src/main/java'
+    classpath = files()
+}
