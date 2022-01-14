@@ -80,10 +80,7 @@ public class ArrayBlockCopy {
             throw new IllegalArgumentException("To index should be greater than From index");
         } else {
             List<Integer> listArrayTo = Arrays.stream(arrayFrom).boxed().collect(Collectors.toList()).subList(from, to);
-            int[] arrayTo = new int[listArrayTo.size()];
-            for (int i = 0; i < listArrayTo.size(); i++) {
-                arrayTo[i] = listArrayTo.get(i);
-            }
+            int[] arrayTo = listArrayTo.stream().mapToInt(i -> i).toArray();
             return arrayTo;
         }
     }
