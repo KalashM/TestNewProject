@@ -1,30 +1,41 @@
 package com.example.arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.Assert.*;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class ArrayBlockCopyTest {
 
-    @Test
-    public void testArrayBlockCopyIntoNew() {
-        int[] expected = new int[]{1, 2};
-        assertArrayEquals(expected, ArrayBlockCopy.arrayBlockCopy(new int[]{1, 2, 3, 4}, 0, 2));
+    @ParameterizedTest
+    @MethodSource("intIntArrayIntProvider")
+    public void testArrayBlockCopyMultiArgs(int from, int to, int[] expected) {
+        int[] actual = new int[]{1, 2, 3, 4, 5};
+        assertArrayEquals(expected, ArrayBlockCopy.arrayBlockCopy(actual, from, to));
     }
 
-    @Test
-    public void testArrayBlockCopyIntoBeginning() {
-        int[] expected = new int[]{5, 8, 3, 5, 8};
-        int[] actual = new int[]{1, 2, 3, 5, 8};
-        ArrayBlockCopy.arrayBlockCopy(actual, actual, 3, 5);
-        assertArrayEquals(expected, actual);
+    @ParameterizedTest
+    @MethodSource("intIntArrayIntProvider")
+    public void testArrayBlockCopyUsingArrayMultiArgs(int from, int to, int[] expected) {
+        int[] actual = new int[]{1, 2, 3, 4, 5};
+        assertArrayEquals(expected, ArrayBlockCopy.arrayBlockCopyUsingArray(actual, from, to));
     }
 
-    @Test
-    public void testArrayBlockCopyIntoPosition() {
-        int[] actual = new int[]{1, 2, 3, 5, 8};
-        int[] expected = new int[]{1, 2, 3, 1, 2};
-        ArrayBlockCopy.arrayBlockCopy(actual, actual, 0, 2, 3);
-        assertArrayEquals(expected, actual);
+    @ParameterizedTest
+    @MethodSource("intIntArrayIntProvider")
+    public void testArrayBlockCopyUsingListMultiArgs(int from, int to, int[] expected) {
+        int[] actual = new int[]{1, 2, 3, 4, 5};
+        assertArrayEquals(expected, ArrayBlockCopy.arrayBlockCopyUsingList(actual, from, to));
+    }
+
+    public static Stream<Arguments> intIntArrayIntProvider() {
+        return Stream.of(
+                Arguments.of(0, 2, new int[]{1, 2}),
+                Arguments.of(4, 5, new int[]{5}),
+                Arguments.of(3, 5, new int[]{4, 5})
+        );
     }
 }
