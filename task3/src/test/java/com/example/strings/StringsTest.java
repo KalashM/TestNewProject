@@ -2,7 +2,10 @@ package com.example.strings;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,10 +38,26 @@ class StringsTest {
         assertEquals(expected, s.stringReverseUsingBuildInMethod(actual));
     }
 
+    @ParameterizedTest
+    @MethodSource("stringArrayProvider")
+    void findCommonSymbolsTest(String[] actual, char[] expected) {
+        assertArrayEquals(expected, Strings.findCommonSymbols(actual));
+    }
+
     private static Object[] reverseValues() {
         return new Object[]{
-                new Object[]{"abc", "cba"},
+                new Object[]{"1abc:", ":cba1"},
+                new Object[]{"goal", "laog"},
                 new Object[]{"", ""}
         };
+    }
+
+    public static Stream<Arguments> stringArrayProvider() {
+        return Stream.of(
+                Arguments.of(new String[]{"abbcd", "bcd", "abgt"}, new char[]{'b'}),
+                Arguments.of(new String[]{"abbcd", "bcd", "tabd"}, new char[]{'b', 'd'}),
+                Arguments.of(new String[]{"abbcd", "bcd", ""}, new char[]{}),
+                Arguments.of(new String[]{"abbcd1", "bcd1", "tabd1"}, new char[]{'b', 'd', '1'})
+        );
     }
 }

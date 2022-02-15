@@ -33,7 +33,7 @@ public class Strings {
     }
 
     public static char[] findCommonSymbols(String[] s) {
-        int len;
+
         int min = s[0].length();
         int indexOfShortestElement = 0;
         for (int i = 1; i < s.length; i++) {
