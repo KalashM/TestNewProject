@@ -57,7 +57,8 @@ class StringsTest {
                 Arguments.of(new String[]{"abbcd", "bcd", "abgt"}, new char[]{'b'}),
                 Arguments.of(new String[]{"abbcd", "bcd", "tabd"}, new char[]{'b', 'd'}),
                 Arguments.of(new String[]{"abbcd", "bcd", ""}, new char[]{}),
-                Arguments.of(new String[]{"abbcd1", "bcd1", "tabd1"}, new char[]{'b', 'd', '1'})
+                Arguments.of(new String[]{"abbcd", "dab", "bad"}, new char[]{'a', 'b', 'd'}),
+                Arguments.of(new String[]{"abbcd1", "bcd1", "tabd1"}, new char[]{'1', 'b', 'd'})
         );
     }
 }

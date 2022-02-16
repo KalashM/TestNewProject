@@ -1,11 +1,20 @@
 package com.example.strings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
+/**Class <strong>Strings</strong> implements methods to work with Strings.
+ * @author - Marina Panchenko
+ * @version - 1.0
+ */
 public class Strings {
 
+    /**
+     * Method reverse a string using StringBuilder class.
+     * @param s the input string that should be reversed.
+     * @return a reversed string.
+     */
     public static String stringReverseUsingBuildInMethod(String s) {
 
         StringBuilder input = new StringBuilder();
@@ -14,6 +23,11 @@ public class Strings {
 
     }
 
+    /**
+     * Method reverse a string using own implementation.
+     * @param s the input string that should be reversed.
+     * @return a reversed string.
+     */
     public static String stringReverse(String s) {
         if (s == null) {
             throw new NullPointerException("The input string is empty");
@@ -32,6 +46,11 @@ public class Strings {
         }
     }
 
+    /**
+     * Method finds common characters in a given strings.
+     * @param s the input array of strings.
+     * @return an array of unique sorted common characters presented in all given strings.
+     */
     public static char[] findCommonSymbols(String[] s) {
 
         int min = s[0].length();
@@ -46,11 +65,11 @@ public class Strings {
         String shortestString = s[indexOfShortestElement];
 
         char[] chars = shortestString.toCharArray();
+        Arrays.sort(chars);
         Set<Character> charSet = new LinkedHashSet<Character>();
         for (char c : chars) {
             charSet.add(c);
         }
-
         StringBuilder resultString = new StringBuilder();
 
         for (Character character : charSet) {
@@ -64,9 +83,7 @@ public class Strings {
                 resultString.append(character);
             }
         }
-
         return resultString.toString().toCharArray();
-
     }
 
 }
