@@ -1,9 +1,7 @@
 package com.example.strings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
+
 /**Class <strong>Strings</strong> implements methods to work with Strings.
  * @author - Marina Panchenko
  * @version - 1.0
@@ -64,12 +62,13 @@ public class Strings {
 
         String shortestString = s[indexOfShortestElement];
 
-        char[] chars = shortestString.toCharArray();
+        Character[] chars = shortestString.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
         Arrays.sort(chars);
+
         Set<Character> charSet = new LinkedHashSet<Character>();
-        for (char c : chars) {
-            charSet.add(c);
-        }
+
+        Collections.addAll(charSet, chars);
+
         StringBuilder resultString = new StringBuilder();
 
         for (Character character : charSet) {
