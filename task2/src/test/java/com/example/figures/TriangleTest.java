@@ -1,8 +1,8 @@
 package com.example.figures;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TriangleTest {
     @Test
@@ -10,8 +10,8 @@ public class TriangleTest {
         Triangle triangle = new Triangle(3,4,5,0,0);
 
         assertEquals("Triangle", triangle.getType());
-        assertEquals("X coordinate: ",0, triangle.getX());
-        assertEquals("Y coordinate: ",0, triangle.getY());
+        assertEquals(0, triangle.getX());
+        assertEquals(0, triangle.getY());
         assertEquals(3, triangle.getSide1(),0);
         assertEquals(4, triangle.getSide2(),0);
         assertEquals(5, triangle.getSide3(),0);

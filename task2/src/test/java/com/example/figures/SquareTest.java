@@ -1,9 +1,8 @@
 package com.example.figures;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SquareTest {
     @Test
@@ -26,8 +25,8 @@ public class SquareTest {
         Square square = new Square(5, 0,2);
 
         assertEquals("Square", square.getType());
-        assertEquals("X coordinate: ",0, square.getX());
-        assertEquals("Y coordinate: ",2, square.getY());
+        assertEquals(0, square.getX());
+        assertEquals(2, square.getY());
         assertEquals(5, square.getWidth(),0);
     }
 }

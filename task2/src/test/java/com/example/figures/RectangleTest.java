@@ -1,17 +1,16 @@
 package com.example.figures;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RectangleTest {
     @Test
     public void testShow() {
         Rectangle rectangle = new Rectangle(3, 6, 1,1);
         assertEquals("Rectangle", rectangle.getType());
-        assertEquals("X coordinate: ",1, rectangle.getX());
-        assertEquals("Y coordinate: ",1, rectangle.getY());
+        assertEquals(1, rectangle.getX());
+        assertEquals(1, rectangle.getY());
         assertEquals(6, rectangle.getHeight(),0);
         assertEquals(3, rectangle.getWidth(),0);
     }

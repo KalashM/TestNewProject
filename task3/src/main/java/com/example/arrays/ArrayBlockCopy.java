@@ -82,6 +82,7 @@ public class ArrayBlockCopy {
             List<Integer> listArrayTo = Arrays.stream(arrayFrom).boxed().collect(Collectors.toList()).subList(from, to);
             int[] arrayTo = listArrayTo.stream().mapToInt(i -> i).toArray();
             return arrayTo;
+
         }
     }
 }
