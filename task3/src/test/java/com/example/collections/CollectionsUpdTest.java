@@ -34,6 +34,12 @@ class CollectionsUpdTest {
         assertArrayEquals(expected, CollectionsUpd.arraysIntersection(actual));
     }
 
+    @ParameterizedTest
+    @MethodSource("integerArrayDifference")
+    void arraysDifferenceTest(List<Integer[]> actual, Integer[] expected) {
+        assertArrayEquals(expected, CollectionsUpd.arraysDifference(actual.get(0), actual.get(1)));
+    }
+
     public static Stream<Arguments> integerListProvider() {
         return Stream.of(
                 Arguments.of(new ArrayList<Integer[]>(
@@ -70,6 +76,20 @@ class CollectionsUpdTest {
                                         new Integer[]{1, 2, 5, 17,},
                                         new Integer[]{null})),
                                 new Integer[]{}));
+    }
+
+    public static Stream<Arguments> integerArrayDifference() {
+        return Stream.of(
+                Arguments.of(new ArrayList<Integer[]>(
+                                Arrays.asList(new Integer[]{1, 2, 3, 3, 4, 4},
+                                        new Integer[]{1, 1, 5, 8, 5, 4})),
+                             new Integer[]{2, 3})
+                /*Arguments.of(new ArrayList<Integer[]>(
+                                Arrays.asList(new Integer[]{0, 1, 2, 5, 10},
+                                        new Integer[]{2, 22, 5, 8,},
+                                        new Integer[]{1, 2, 5, 17,},
+                                        new Integer[]{null})),
+                        new Integer[]{})*/);
     }
 
 }

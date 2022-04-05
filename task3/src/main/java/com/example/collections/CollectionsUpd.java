@@ -64,4 +64,13 @@ public class CollectionsUpd {
 
         return resultArray;
     }
+
+    public static Integer[] arraysDifference(Integer[] arrayA, Integer[] arrayB) {
+
+        Set<Integer> setA = new HashSet<Integer>(Arrays.asList(arrayA));
+        Set<Integer> setB = new HashSet<Integer>(Arrays.asList(arrayB));
+        setA.removeAll(setB);
+
+        return Arrays.stream(setA.toArray()).map(o -> (Integer) o).toArray(Integer[]::new);
+    }
 }
