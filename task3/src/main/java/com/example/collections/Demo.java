@@ -1,9 +1,8 @@
 package com.example.collections;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Demo {
@@ -19,8 +18,7 @@ public class Demo {
             System.out.println(Arrays.asList(integers).toString());
         }
 
-        for (Integer[] integers: Collections.removeDuplicates(testInputs)) {
+        for (Integer[] integers: CollectionsUpd.removeDuplicates(testInputs)) {
             System.out.println(Arrays.asList(integers).toString());
         }
-    }
 }
