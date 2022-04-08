@@ -20,5 +20,7 @@ public class Demo {
         for (Integer[] integers : CollectionsUpd.removeDuplicates(testInputs)) {
             System.out.println(Arrays.asList(integers).toString());
         }
+
+        CollectionsUpd.frequencyDictionary("Marina Калашник 14.10.1991");
     }
 }

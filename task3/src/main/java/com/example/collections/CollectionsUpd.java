@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class CollectionsUpd {
 
@@ -72,5 +73,37 @@ public class CollectionsUpd {
         setA.removeAll(setB);
 
         return Arrays.stream(setA.toArray()).map(o -> (Integer) o).toArray(Integer[]::new);
+    }
+
+    public static Map<Character, Long> frequencyDictionary(String s) {
+
+        LOGGER.info("----------- Input Sting: -------------");
+        LOGGER.info(s);
+
+        Set<Character> charSet = new TreeSet<Character>();
+        Character[] charArray = s.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
+
+        for (int i = 0; i < charArray.length; i++) {
+            if (charArray[i].toString().matches("[A-Za-z0-9]+")) {
+                charSet.add(charArray[i]);
+            }
+        }
+        LOGGER.debug("---------------------------------------------------------");
+        LOGGER.debug("List of latin characters or digits from the input string:");
+        LOGGER.debug(charSet.toString());
+        LOGGER.debug("---------------------------------------------------------");
+
+        Map<Character, Long> resultMap = new TreeMap<Character, Long>();
+
+        for (Character c: charSet) {
+            Long charCount = s.chars().filter(ch -> ch == c).count();
+            resultMap.put(c, charCount);
+        }
+
+        LOGGER.info("---------------------------------------------------------");
+        LOGGER.info("Result of frequency vocabulary:");
+        LOGGER.info(resultMap.toString());
+
+        return resultMap;
     }
 }
