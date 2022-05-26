@@ -1,5 +1,11 @@
 version = '1.0.0'
 apply plugin:'checkstyle'
+buildscript {
+    repositories {
+        mavenCentral()
+        }
+   }
+
 jar {
     manifest {
         attributes 'Main-Class': 'com.example.arrays.Demo'
@@ -16,4 +22,14 @@ task checkstyle(type: Checkstyle) {
     configFile file('.../config/checkstyle/checkstyle.xml')
     source 'src/main/java'
     classpath = files()
+}
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDirectory = file("$buildDir/jacoco")
+}
+test {
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
 }

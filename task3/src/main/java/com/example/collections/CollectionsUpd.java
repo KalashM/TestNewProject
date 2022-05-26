@@ -72,7 +72,8 @@ public class CollectionsUpd {
         Set<Integer> setB = new HashSet<Integer>(Arrays.asList(arrayB));
         setA.removeAll(setB);
 
-        return Arrays.stream(setA.toArray()).map(o -> (Integer) o).toArray(Integer[]::new);
+        //return Arrays.stream(setA.toArray()).map(o -> (Integer) o).toArray(Integer[]::new);
+        return setA.toArray(new Integer[0]);
     }
 
     public static Map<Character, Long> frequencyDictionary(String s) {
