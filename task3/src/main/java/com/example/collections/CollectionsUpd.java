@@ -1,11 +1,9 @@
 package com.example.collections;
 
-import com.example.arrays.ArrayBlockCopy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class CollectionsUpd {
 
