@@ -25,11 +25,33 @@ task checkstyle(type: Checkstyle) {
 }
 jacoco {
     toolVersion = "0.8.7"
-    reportsDirectory = layout.buildDirectory.dir("task3/build/jacoco")
+    reportsDirectory = layout.buildDirectory.dir("jacoco")
 }
 test {
     finalizedBy jacocoTestReport
 }
 jacocoTestReport {
     dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "**/Demo.*"
+            ])
+        }))
+    }
+
 }
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            excludes = [
+                    'task3/src/main/java/com/example/arrays/Demo.java',
+                    'task3/src/main/java/com/example/collections/Demo.java',
+                    'task3/src/main/java/com/example/strings/Demo.java'
+            ]
+        }
+    }
+}
+check.dependsOn jacocoTestCoverageVerification
