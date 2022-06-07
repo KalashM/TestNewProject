@@ -30,6 +30,7 @@ jacoco {
 test {
     finalizedBy jacocoTestReport
 }
+
 jacocoTestReport {
     dependsOn test
 
@@ -40,25 +41,4 @@ jacocoTestReport {
             ])
         }))
     }
-
-}
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            element = 'CLASS'
-            excludes = [
-                    'task3/src/main/java/com/example/arrays/Demo.java',
-                    'task3/src/main/java/com/example/collections/Demo.java',
-                    'task3/src/main/java/com/example/strings/Demo.java'
-            ]
-        }
-        rule {
-            limit {
-                minimum = 0.7
-            }
-        }
-    }
-}
-check {
-    dependsOn jacocoTestCoverageVerification
 }
