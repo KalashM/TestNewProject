@@ -52,6 +52,13 @@ jacocoTestCoverageVerification {
                     'task3/src/main/java/com/example/strings/Demo.java'
             ]
         }
+        rule {
+            limit {
+                minimum = 0.7
+            }
+        }
     }
 }
-check.dependsOn jacocoTestCoverageVerification
+check {
+    dependsOn jacocoTestCoverageVerification
+}
