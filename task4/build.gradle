@@ -1,0 +1,44 @@
+version = '1.0.0'
+apply plugin:'checkstyle'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.arrays.Demo'
+    }
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+javadoc {
+    classpath += sourceSets.test.compileClasspath
+    source += sourceSets.test.allJava
+    destinationDir = reporting.file("task4/build/docs/javadoc")
+}
+task checkstyle(type: Checkstyle) {
+    configFile file('.../config/checkstyle/checkstyle.xml')
+    source 'src/main/java'
+    classpath = files()
+}
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir("jacoco")
+}
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "**/Demo.*"
+            ])
+        }))
+    }
+}
