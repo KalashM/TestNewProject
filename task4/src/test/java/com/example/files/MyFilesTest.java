@@ -5,20 +5,17 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FilesTest {
+class MyFilesTest {
 
     @ParameterizedTest
     @MethodSource("filesByPattern")
     void findFilesByPatternTest(String[] actual, String[] expected) {
-        File[] actualFiles = Files.findFilesByPattern(actual[0], actual[1]);
+        File[] actualFiles = MyFiles.findFilesByPattern(actual[0], actual[1]);
         List<String> actualFileNames = new ArrayList<String>();
         for (int i = 0; i < actualFiles.length; i++) {
             actualFileNames.add(actualFiles[i].getName());
