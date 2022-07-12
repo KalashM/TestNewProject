@@ -1,0 +1,9 @@
+12-07-2022 12:30:11 INFO  Demo:29 - File size = 605 mb
+12-07-2022 12:30:17 INFO  Demo:33 - Time taken to copy file using Stream =           5352428900
+12-07-2022 12:30:20 INFO  Demo:37 - Time taken to copy file using Buffered Stream =  3253706900
+12-07-2022 12:30:25 INFO  Demo:41 - Time taken to copy file using NIO Channel =      5132918600
+12-07-2022 12:30:42 INFO  Demo:45 - Time taken to copy file using Java Files =      16689782500
+
+Copying files using BufferedInputStream is faster then using FileInputStream, NIO Channel, Java Files.
+FileInputStream and BufferedInputStream copies data byte by byte. But BufferedInputStream maintains an internal buffer
+to store bytes read from the underlying input stream, that's why it is faster.

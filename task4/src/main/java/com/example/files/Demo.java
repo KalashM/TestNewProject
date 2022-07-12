@@ -26,7 +26,7 @@ public class Demo {
         String myURLTxt = "https://raw.githubusercontent.com/KalashM/TestNewProject/436416cee51e4a5f614ebe0004017fdd80814356/task4/src/main/java/com/example/files/MyFiles.java";
         String outPathTxt = "task4\\src\\test\\resources";
 
-        LOGGER.info("File size total = " + (in.length() / (1024 * 1024)) + " mb");
+        LOGGER.info("File size = " + (in.length() / (1024 * 1024)) + " mb");
 
         long start = System.nanoTime();
         MyFiles.copyFileUsingStream(in, out);
