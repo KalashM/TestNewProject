@@ -1,9 +1,15 @@
 package com.example.files;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 
 public class Demo {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(Demo.class);
+
     public static void main(String[] args) throws IOException {
 
         /*File[] matchedFiles = MyFiles.findFilesByPattern("D:\\", "(.*)fo(.*)");
@@ -11,43 +17,43 @@ public class Demo {
             System.out.println(matchedFile.getName());
         }*/
 
-        File in = new File("D:\\Java\\books\\Bloch_Effective-Java-3rd.pdf");
-        File out = new File("D:\\Java\\books\\COPY_Bloch_Effective-Java-3rd.pdf");
-        File outBuffered = new File("D:\\Java\\books\\COPYBuffered_Bloch_Effective-Java-3rd.pdf");
-        File outChannel = new File("D:\\Java\\books\\COPYChannel_Bloch_Effective-Java-3rd.pdf");
-        File outFiles = new File("D:\\Java\\books\\COPYFiles_Bloch_Effective-Java-3rd.pdf");
+        File in = new File("task4\\src\\test\\resources\\Bruce Eckel - Thinking in Java - 2015.pdf");
+        File out = new File("task4\\src\\test\\resources\\COPY_Bruce Eckel - Thinking in Java - 2015.pdf");
+        File outBuffered = new File("task4\\src\\test\\resources\\COPYBuffered_Bruce Eckel - Thinking in Java - 2015.pdf");
+        File outChannel = new File("task4\\src\\test\\resources\\COPYChannel_BBruce Eckel - Thinking in Java - 2015.pdf");
+        File outFiles = new File("task4\\src\\test\\resources\\COPYFiles_Bruce Eckel - Thinking in Java - 2015.pdf");
 
-        String myURLMov = "https://drive.google.com/file/d/1UU2S7E_8LgLzdzGRg428uMX3FgHXnCtg/view?usp=sharing";
-        String myURLJpg = "https://drive.google.com/file/d/1lL84rFawrFDy4oUyIwohAF6uaEWFbhjL/view?usp=sharing";
-        String myURLTxt = "https://drive.google.com/file/d/1ie988yuZL9sj5Mfy4m8dpXp7MacpIQtZ/view";
-        String outPathMov = "D:\\Java\\books\\JAVA-FHD0072.MOV";
-        String outPathJpg = "D:\\Java\\books\\SomePicture.jpg";
-        String outPathTxt = "D:\\Java\\books\\SomeTxt.txt";
+        String myURLTxt = "https://raw.githubusercontent.com/KalashM/TestNewProject/436416cee51e4a5f614ebe0004017fdd80814356/task4/src/main/java/com/example/files/MyFiles.java";
+        String outPathTxt = "task4\\src\\test\\resources";
+
+        LOGGER.info("File size total = " + (in.length() / (1024 * 1024)) + " mb");
 
         long start = System.nanoTime();
-        /*MyFiles.copyFileUsingStream(in, out);
-        System.out.println("Time taken to copy file using Stream = " + (System.nanoTime() - start));
+        MyFiles.copyFileUsingStream(in, out);
+        LOGGER.info("Time taken to copy file using Stream = " + (System.nanoTime() - start));
 
         start = System.nanoTime();
-        MyFiles.copyFileUsinfBufferedStream(in, outBuffered);
-        System.out.println("Time taken to copy file using Buffered Stream = " + (System.nanoTime() - start));
+        MyFiles.copyFileUsingBufferedStream(in, outBuffered);
+        LOGGER.info("Time taken to copy file using Buffered Stream = " + (System.nanoTime() - start));
 
         start = System.nanoTime();
-        MyFiles.copyFileUsingNio(in, outChannel);
-        System.out.println("Time taken to copy file using NIO Channel = " + (System.nanoTime() - start));
+        MyFiles.copyFileUsingNioChannel(in, outChannel);
+        LOGGER.info("Time taken to copy file using NIO Channel = " + (System.nanoTime() - start));
 
         start = System.nanoTime();
         MyFiles.copyFileUsingJavaFiles(in, outFiles);
-        System.out.println("Time taken to copy file using NIO Files = " + (System.nanoTime() - start));
+        LOGGER.info("Time taken to copy file using Java Files = " + (System.nanoTime() - start));
 
-        start = System.nanoTime();*/
-        //MyFiles.copyFileFromURLUsingJavaFiles(myURLTxt, outPathTxt);
+        start = System.nanoTime();
         MyFiles.copyFileFromURLUsingBufferedReader(myURLTxt, outPathTxt);
-        System.out.println("Time taken to copy file from URL using Buffered Stream = " + (System.nanoTime() - start));
+        LOGGER.info("Time taken to copy file from URL using Buffered Reader = " + (System.nanoTime() - start));
 
-        /*start = System.nanoTime();
-        MyFiles.copyFileFromURLUsingJavaFiles(myURLJpg, outPathJpg);
-        System.out.println("Time taken to copy file from URL using NIO Files = " + (System.nanoTime() - start));
-*/
+        start = System.nanoTime();
+        MyFiles.copyFileFromURLUsingBufferedStream(myURLTxt, outPathTxt);
+        LOGGER.info("Time taken to copy file from URL using Buffered Stream = " + (System.nanoTime() - start));
+
+        start = System.nanoTime();
+        MyFiles.copyFileFromURLUsingJavaFiles(myURLTxt, outPathTxt);
+        LOGGER.info("Time taken to copy file from URL using Java Files = " + (System.nanoTime() - start));
     }
 }

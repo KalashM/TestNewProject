@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,6 +14,11 @@ import java.nio.file.StandardCopyOption;
 
 public class MyFiles {
     private static Logger LOGGER = LoggerFactory.getLogger(MyFiles.class);
+
+    private static String getFileNameFromURL(String urlFrom) throws MalformedURLException {
+        URL url = new URL(urlFrom);
+        return Paths.get(url.getPath()).getFileName().toString();
+    }
 
     public static File[] findFilesByPattern(String directory, String pattern) {
         File dir = new File(directory);
@@ -21,12 +28,11 @@ public class MyFiles {
     }
 
     public static void copyFileUsingStream(File original, File copied) throws IOException {
-        InputStream inStream = null;
-        OutputStream outStream = null;
 
-        try {
-            inStream = new FileInputStream(original);
-            outStream = new FileOutputStream(copied);
+        try (
+            InputStream inStream = new FileInputStream(original);
+            OutputStream outStream = new FileOutputStream(copied)
+        ) {
             byte[] buffer = new byte[1024];
             int lengthRead;
             while ((lengthRead = inStream.read(buffer)) > 0) {
@@ -34,45 +40,35 @@ public class MyFiles {
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
-        } finally {
-            inStream.close();
-            outStream.close();
         }
     }
 
-    public static void copyFileUsinfBufferedStream(File original, File copied) throws IOException {
-        InputStream inStream = null;
-        OutputStream outStream = null;
-
-        try {
-            inStream = new BufferedInputStream(new FileInputStream(original));
-            outStream = new BufferedOutputStream(new FileOutputStream(copied));
+    public static void copyFileUsingBufferedStream(File original, File copied) throws IOException {
+        try (
+                InputStream inStream = new BufferedInputStream(new FileInputStream(original));
+                OutputStream outStream = new FileOutputStream(copied)
+        ) {
             byte[] buffer = new byte[1024];
             int lengthRead;
-            while ((lengthRead = inStream.read(buffer)) > 0) {
+            while ((lengthRead = inStream.read(buffer, 0, buffer.length)) != -1) {
                 outStream.write(buffer, 0, lengthRead);
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
-        } finally {
-            inStream.close();
-            outStream.close();
         }
     }
 
-    public static void copyFileUsingNio(File original, File copied) throws IOException {
-        FileChannel inChannel = null;
-        FileChannel outChannel = null;
-
-        try {
-            inChannel = new FileInputStream(original).getChannel();
-            outChannel = new FileOutputStream(copied).getChannel();
-            outChannel.transferFrom(inChannel, 0, inChannel.size());
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            inChannel.close();
-            outChannel.close();
+    public static void copyFileUsingNioChannel(File original, File copied) throws IOException {
+        try (
+                FileChannel inputChannel = new FileInputStream(original).getChannel();
+                FileChannel outputChannel = new FileOutputStream(copied).getChannel();
+        ) {
+            ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
+            while (inputChannel.read(buffer) != -1) {
+                buffer.flip();
+                outputChannel.write(buffer);
+                buffer.clear();
+            }
         }
     }
 
@@ -80,16 +76,18 @@ public class MyFiles {
         Files.copy(original.toPath(), copied.toPath());
     }
 
-    public static void copyFileFromURLUsingJavaFiles(String originalURL, String copiedPath) throws IOException {
+    public static void copyFileFromURLUsingJavaFiles(String originalURL, String copiedDir) throws IOException {
         InputStream in = new URL(originalURL).openStream();
+        String copiedPath = copiedDir + "\\" + getFileNameFromURL(originalURL);
         Files.copy(in, Paths.get(copiedPath), StandardCopyOption.REPLACE_EXISTING);
     }
 
-    public static void copyFileFromURLUsingBufferedReader(String originalURL, String copiedPath) throws IOException {
+    public static void copyFileFromURLUsingBufferedReader(String originalURL, String copiedDir) throws IOException {
+        String copiedPath = copiedDir + "\\" + getFileNameFromURL(originalURL);
+
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(originalURL).openStream()));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(copiedPath));
         String line;
-
         while ((line = bufferedReader.readLine()) != null) {
             bufferedWriter.write(line);
         }
@@ -97,24 +95,20 @@ public class MyFiles {
         bufferedWriter.close();
     }
 
-    public static void copyFileUsingBufferedStreamFromURL(String originalURL, String copiedPath) throws IOException {
-        InputStream inStream = null;
-        OutputStream outStream = null;
+    public static void copyFileFromURLUsingBufferedStream(String originalURL, String copiedDir) throws IOException {
+        String copiedPath = copiedDir + "\\" + getFileNameFromURL(originalURL) + "1";
 
-        try {
-            inStream = new BufferedInputStream(new URL(originalURL).openStream());
-            outStream = new BufferedOutputStream(new FileOutputStream(copiedPath));
+        try (
+                InputStream inStream = new BufferedInputStream(new URL(originalURL).openStream());
+                OutputStream outStream = new BufferedOutputStream(new FileOutputStream(copiedPath))
+            ) {
             byte[] buffer = new byte[1024];
             int lengthRead;
             while ((lengthRead = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, lengthRead);
             }
         } catch (IOException e) {
-            // LOGGER.error(e.getMessage());
-            System.out.println(e.getMessage());
-        } finally {
-            inStream.close();
-            outStream.close();
+            LOGGER.error(e.getMessage());
         }
     }
 }
