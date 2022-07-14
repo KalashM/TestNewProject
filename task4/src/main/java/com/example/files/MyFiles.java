@@ -11,6 +11,9 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class MyFiles {
     private static Logger LOGGER = LoggerFactory.getLogger(MyFiles.class);
@@ -110,5 +113,30 @@ public class MyFiles {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
+    }
+
+    public static Integer[][] readMatrixFromFile(File original) {
+        ArrayList<String> result = new ArrayList<>();
+        int m, n;
+        try (BufferedReader br = new BufferedReader(new FileReader(original))) {
+            while (br.ready()) {
+                result.add(br.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StringTokenizer st;
+        m = result.size();
+        Integer[][] matrix = new Integer[m][m];
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(result.get(i));
+            int j = 0;
+            while (st.hasMoreTokens()) {
+                matrix[i][j] = Integer.parseInt(st.nextToken());
+                j++;
+            }
+        }
+        LOGGER.info("Matrix from a file " + original.getPath() + ": " + Arrays.deepToString(matrix));
+        return matrix;
     }
 }
