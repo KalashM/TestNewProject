@@ -12,10 +12,11 @@ public class Demo {
 
     public static void main(String[] args) throws IOException {
 
-        /*File[] matchedFiles = MyFiles.findFilesByPattern("D:\\", "(.*)fo(.*)");
+        LOGGER.info("Look up files in a directory by pattern:");
+        File[] matchedFiles = MyFiles.findFilesByPattern("task4\\src\\test\\resources", "Br(.*)");
         for (File matchedFile : matchedFiles) {
-            System.out.println(matchedFile.getName());
-        }*/
+            LOGGER.info(matchedFile.getName());
+        }
 
         File in = new File("task4\\src\\test\\resources\\Bruce Eckel - Thinking in Java - 2015.pdf");
         File out = new File("task4\\src\\test\\resources\\COPY_Bruce Eckel - Thinking in Java - 2015.pdf");
@@ -55,5 +56,19 @@ public class Demo {
         start = System.nanoTime();
         MyFiles.copyFileFromURLUsingJavaFiles(myURLTxt, outPathTxt);
         LOGGER.info("Time taken to copy file from URL using Java Files = " + (System.nanoTime() - start));
+
+        LOGGER.info("Test reading a Matrix from a file:");
+        Integer[][] myMatrix = MyFiles.readMatrixFromFile(new File("task4\\src\\test\\resources\\matrix.txt"));
+        LOGGER.info("Find average value of all matrix elements:");
+        int sum = 0;
+        int count = 0;
+        for (int i = 0; i < myMatrix.length; i++) {
+            for (int j = 0; j < myMatrix[i].length; j++) {
+                count++;
+                sum = sum + myMatrix[i][j];
+            }
+        }
+        float avg = sum / count;
+        LOGGER.info("Average value = " + avg);
     }
 }
