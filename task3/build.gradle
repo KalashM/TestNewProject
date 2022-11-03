@@ -17,8 +17,3 @@ javadoc {
     source += sourceSets.test.allJava
     destinationDir = reporting.file("task3/build/docs/javadoc")
 }
-task checkstyle(type: Checkstyle) {
-    configFile file('.../config/checkstyle/checkstyle.xml')
-    source 'src/main/java'
-    classpath = files()
-}
