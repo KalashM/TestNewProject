@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -23,10 +24,10 @@ public class MyFiles {
         return Paths.get(url.getPath()).getFileName().toString();
     }
 
-    public static File[] findFilesByPattern(String directory, String pattern) {
-        File dir = new File(directory);
-        FileFilter fileFilter = file -> !file.isDirectory() && file.getName().matches(pattern);
-        File[] list = dir.listFiles(fileFilter);
+    public static File[] findFilesByPattern(Path path, String pattern) {
+        FileFilter fileFilter = file -> !(file.exists() && file.isDirectory()) && file.getName().matches(pattern);
+
+        File[] list = Paths.get(path.toFile().getAbsolutePath()).toFile().listFiles(fileFilter);
         return list;
     }
 
