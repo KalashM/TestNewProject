@@ -1,4 +1,3 @@
-apply plugin:'checkstyle'
 buildscript {
     repositories {
         mavenCentral()
@@ -15,5 +14,5 @@ jar {
 javadoc {
     classpath += sourceSets.test.compileClasspath
     source += sourceSets.test.allJava
-    destinationDir = reporting.file("task3/build/docs/javadoc")
+    destinationDir = reporting.file("build/docs/javadoc")
 }
