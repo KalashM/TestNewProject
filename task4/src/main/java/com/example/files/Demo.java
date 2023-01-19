@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Demo {
 
@@ -13,12 +15,14 @@ public class Demo {
     public static void main(String[] args) throws IOException {
 
         LOGGER.info("Look up files in a directory by pattern:");
-        File[] matchedFiles = MyFiles.findFilesByPattern("task4\\src\\test\\resources", "Br(.*)");
-        for (File matchedFile : matchedFiles) {
+        Path dir = Paths.get("task4\\src\\main\\java\\com\\example\\files");
+        LOGGER.info(dir.toString());
+        File[] matchedFiles = MyFiles.findFilesByPattern(dir, "(.*)Demo(.*)");
+         for (File matchedFile : matchedFiles) {
             LOGGER.info(matchedFile.getName());
         }
 
-        File in = new File("task4\\src\\test\\resources\\Bruce Eckel - Thinking in Java - 2015.pdf");
+        /*File in = new File("task4\\src\\test\\resources\\Bruce Eckel - Thinking in Java - 2015.pdf");
         File out = new File("task4\\src\\test\\resources\\COPY_Bruce Eckel - Thinking in Java - 2015.pdf");
         File outBuffered = new File("task4\\src\\test\\resources\\COPYBuffered_Bruce Eckel - Thinking in Java - 2015.pdf");
         File outChannel = new File("task4\\src\\test\\resources\\COPYChannel_BBruce Eckel - Thinking in Java - 2015.pdf");
@@ -55,7 +59,7 @@ public class Demo {
 
         start = System.nanoTime();
         MyFiles.copyFileFromURLUsingJavaFiles(myURLTxt, outPathTxt);
-        LOGGER.info("Time taken to copy file from URL using Java Files = " + (System.nanoTime() - start));
+        LOGGER.info("Time taken to copy file from URL using Java Files = " + (System.nanoTime() - start));*/
 
         LOGGER.info("Test reading a Matrix from a file:");
         Integer[][] myMatrix = MyFiles.readMatrixFromFile(new File("task4\\src\\test\\resources\\matrix.txt"));
