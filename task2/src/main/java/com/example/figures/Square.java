@@ -20,7 +20,7 @@ public class Square extends Rectangle implements Figure {
     }
 
      /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     @Override
     public void show() {
