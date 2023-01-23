@@ -30,12 +30,7 @@ public class MyFiles {
     }
 
     public static List<Path> findFilesByPatternUsingDirectoryStreamFilter(Path path, String pattern) {
-        DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
-            @Override
-            public boolean accept(Path entry) throws IOException {
-                return (entry.getFileName().toString().matches(pattern));
-            }
-        };
+        DirectoryStream.Filter<Path> filter = entry -> (entry.getFileName().toString().matches(pattern));
         List<Path> result = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, filter)) {
             for (Path entry: stream) {
