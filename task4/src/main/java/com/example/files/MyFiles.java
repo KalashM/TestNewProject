@@ -99,15 +99,15 @@ public class MyFiles {
 
     public static void copyFileFromURLUsingBufferedReader(String originalURL, String copiedDir) throws IOException {
         String copiedPath = copiedDir + "\\" + getFileNameFromURL(originalURL);
-
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(originalURL).openStream()));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(copiedPath));
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            bufferedWriter.write(line);
+        try (
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL(originalURL).openStream()));
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(copiedPath));
+        ) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                bufferedWriter.write(line);
+            }
         }
-        bufferedReader.close();
-        bufferedWriter.close();
     }
 
     public static void copyFileFromURLUsingBufferedStream(String originalURL, String copiedDir) throws IOException {
