@@ -8,12 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class MyFiles {
@@ -29,6 +27,24 @@ public class MyFiles {
 
         File[] list = Paths.get(path.toFile().getAbsolutePath()).toFile().listFiles(fileFilter);
         return list;
+    }
+
+    public static List<Path> findFilesByPatternUsingDirectoryStreamFilter(Path path, String pattern) {
+        DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
+            @Override
+            public boolean accept(Path entry) throws IOException {
+                return (entry.getFileName().toString().matches(pattern));
+            }
+        };
+        List<Path> result = new ArrayList<>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, filter)) {
+            for (Path entry: stream) {
+                result.add(entry);
+            }
+        } catch (DirectoryIteratorException | IOException ex) {
+            ex.printStackTrace();
+        }
+        return result;
     }
 
     public static void copyFileUsingStream(File original, File copied) throws IOException {
