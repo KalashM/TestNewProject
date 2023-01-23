@@ -43,7 +43,7 @@ public class MyFiles {
                 outStream.write(buffer, 0, lengthRead);
             }
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -58,7 +58,7 @@ public class MyFiles {
                 outStream.write(buffer, 0, lengthRead);
             }
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -112,7 +112,7 @@ public class MyFiles {
                 outStream.write(buffer, 0, lengthRead);
             }
         } catch (IOException e) {
-            LOGGER.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 
