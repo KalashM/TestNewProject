@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.*;
+import java.nio.channels.SeekableByteChannel;
+import java.nio.file.*;
 
 public class Demo {
 
@@ -21,15 +23,19 @@ public class Demo {
          for (File matchedFile : matchedFiles) {
             LOGGER.info(matchedFile.getName());
         }
+         //Create dummy file:
+        if (Files.isDirectory(Paths.get(args[0]))) {
+            createDummyHugeFile(args[0]);
+        }
 
-        /*File in = new File("task4\\src\\test\\resources\\Bruce Eckel - Thinking in Java - 2015.pdf");
-        File out = new File("task4\\src\\test\\resources\\COPY_Bruce Eckel - Thinking in Java - 2015.pdf");
-        File outBuffered = new File("task4\\src\\test\\resources\\COPYBuffered_Bruce Eckel - Thinking in Java - 2015.pdf");
-        File outChannel = new File("task4\\src\\test\\resources\\COPYChannel_BBruce Eckel - Thinking in Java - 2015.pdf");
-        File outFiles = new File("task4\\src\\test\\resources\\COPYFiles_Bruce Eckel - Thinking in Java - 2015.pdf");
+        File in = new File(args[0] + "\\hugefile.txt");
+        File out = new File(args[0] + "\\COPYStream_hugefile.txt");
+        File outBuffered = new File(args[0] + "\\COPYBuffered_hugefile.txt");
+        File outChannel = new File(args[0] + "\\COPYChannel_hugefile.txt");
+        File outFiles = new File(args[0] + "\\COPYFiles_hugefile.txt");
 
         String myURLTxt = "https://raw.githubusercontent.com/KalashM/TestNewProject/436416cee51e4a5f614ebe0004017fdd80814356/task4/src/main/java/com/example/files/MyFiles.java";
-        String outPathTxt = "task4\\src\\test\\resources";
+        String outPathTxt = args[0];
 
         LOGGER.info("File size = " + (in.length() / (1024 * 1024)) + " mb");
 
@@ -59,7 +65,7 @@ public class Demo {
 
         start = System.nanoTime();
         MyFiles.copyFileFromURLUsingJavaFiles(myURLTxt, outPathTxt);
-        LOGGER.info("Time taken to copy file from URL using Java Files = " + (System.nanoTime() - start));*/
+        LOGGER.info("Time taken to copy file from URL using Java Files = " + (System.nanoTime() - start));
 
         LOGGER.info("Test reading a Matrix from a file:");
         Integer[][] myMatrix = MyFiles.readMatrixFromFile(new File("task4\\src\\test\\resources\\matrix.txt"));
@@ -74,5 +80,19 @@ public class Demo {
         }
         float avg = sum / count;
         LOGGER.info("Average value = " + avg);
+    }
+
+    public static void createDummyHugeFile(String path) {
+        final ByteBuffer buf = ByteBuffer.allocate(4).putInt(2);
+        buf.rewind();
+
+        final OpenOption[] options = {StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW , StandardOpenOption.SPARSE};
+        final Path hugeFile = Paths.get(path + "\\hugefile.txt");
+        try (final SeekableByteChannel channel = Files.newByteChannel(hugeFile, options);) {
+            channel.position(1024 * 1024 * 1024);
+            channel.write(buf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
