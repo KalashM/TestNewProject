@@ -42,7 +42,7 @@ public class MyFiles {
         return result;
     }
 
-    public static void copyFileUsingStream(File original, File copied) throws IOException {
+    public static void copyFileUsingStream(File original, File copied) {
 
         try (
             InputStream inStream = new FileInputStream(original);
@@ -58,7 +58,7 @@ public class MyFiles {
         }
     }
 
-    public static void copyFileUsingBufferedStream(File original, File copied) throws IOException {
+    public static void copyFileUsingBufferedStream(File original, File copied) {
         try (
                 InputStream inStream = new BufferedInputStream(new FileInputStream(original));
                 OutputStream outStream = new FileOutputStream(copied)
