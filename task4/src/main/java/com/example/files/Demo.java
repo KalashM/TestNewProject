@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.*;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
+import java.util.concurrent.TimeUnit;
 
 public class Demo {
 
@@ -39,33 +40,55 @@ public class Demo {
 
         LOGGER.info("File size = " + (in.length() / (1024 * 1024)) + " mb");
 
-        long start = System.nanoTime();
+        long start, end, elapsedTime, convert;
+        start = System.nanoTime();
         MyFiles.copyFileUsingStream(in, out);
-        LOGGER.info("Time taken to copy file using Stream = " + (System.nanoTime() - start));
+        end = System.nanoTime();
+        elapsedTime = end - start;
+        convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        LOGGER.info("Time taken to copy file using Stream = " + convert + " seconds");
 
         start = System.nanoTime();
         MyFiles.copyFileUsingBufferedStream(in, outBuffered);
-        LOGGER.info("Time taken to copy file using Buffered Stream = " + (System.nanoTime() - start));
+        end = System.nanoTime();
+        elapsedTime = end - start;
+        convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        LOGGER.info("Time taken to copy file using Buffered Stream = " + convert + " seconds");
 
         start = System.nanoTime();
         MyFiles.copyFileUsingNioChannel(in, outChannel);
-        LOGGER.info("Time taken to copy file using NIO Channel = " + (System.nanoTime() - start));
+        end = System.nanoTime();
+        elapsedTime = end - start;
+        convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        LOGGER.info("Time taken to copy file using NIO Channel = " + convert + " seconds");
 
         start = System.nanoTime();
         MyFiles.copyFileUsingJavaFiles(in, outFiles);
-        LOGGER.info("Time taken to copy file using Java Files = " + (System.nanoTime() - start));
+        end = System.nanoTime();
+        elapsedTime = end - start;
+        convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        LOGGER.info("Time taken to copy file using Java Files = " + convert + " seconds");
 
         start = System.nanoTime();
         MyFiles.copyFileFromURLUsingBufferedReader(myURLTxt, outPathTxt);
-        LOGGER.info("Time taken to copy file from URL using Buffered Reader = " + (System.nanoTime() - start));
+        end = System.nanoTime();
+        elapsedTime = end - start;
+        convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        LOGGER.info("Time taken to copy file from URL using Buffered Reader = " + convert + " seconds");
 
         start = System.nanoTime();
         MyFiles.copyFileFromURLUsingBufferedStream(myURLTxt, outPathTxt);
-        LOGGER.info("Time taken to copy file from URL using Buffered Stream = " + (System.nanoTime() - start));
+        end = System.nanoTime();
+        elapsedTime = end - start;
+        convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        LOGGER.info("Time taken to copy file from URL using Buffered Stream = " + convert + " seconds");
 
         start = System.nanoTime();
         MyFiles.copyFileFromURLUsingJavaFiles(myURLTxt, outPathTxt);
-        LOGGER.info("Time taken to copy file from URL using Java Files = " + (System.nanoTime() - start));
+        end = System.nanoTime();
+        elapsedTime = end - start;
+        convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        LOGGER.info("Time taken to copy file from URL using Java Files = " + convert + " seconds");
 
         LOGGER.info("Test reading a Matrix from a file:");
         Integer[][] myMatrix = MyFiles.readMatrixFromFile(new File("task4\\src\\test\\resources\\matrix.txt"));

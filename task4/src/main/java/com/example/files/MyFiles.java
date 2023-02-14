@@ -29,20 +29,18 @@ public class MyFiles {
         return list;
     }
 
-    public static List<Path> findFilesByPatternUsingDirectoryStreamFilter(Path path, String pattern) {
+    public static List<Path> findFilesByPatternUsingDirectoryStreamFilter(Path path, String pattern) throws IOException {
         DirectoryStream.Filter<Path> filter = entry -> (entry.getFileName().toString().matches(pattern));
         List<Path> result = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, filter)) {
             for (Path entry: stream) {
                 result.add(entry);
             }
-        } catch (DirectoryIteratorException | IOException ex) {
-            ex.printStackTrace();
         }
         return result;
     }
 
-    public static void copyFileUsingStream(File original, File copied) {
+    public static void copyFileUsingStream(File original, File copied) throws IOException {
 
         try (
             InputStream inStream = new FileInputStream(original);
@@ -53,12 +51,10 @@ public class MyFiles {
             while ((lengthRead = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, lengthRead);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
-    public static void copyFileUsingBufferedStream(File original, File copied) {
+    public static void copyFileUsingBufferedStream(File original, File copied) throws IOException {
         try (
                 InputStream inStream = new BufferedInputStream(new FileInputStream(original));
                 OutputStream outStream = new FileOutputStream(copied)
@@ -68,8 +64,6 @@ public class MyFiles {
             while ((lengthRead = inStream.read(buffer, 0, buffer.length)) != -1) {
                 outStream.write(buffer, 0, lengthRead);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -122,8 +116,6 @@ public class MyFiles {
             while ((lengthRead = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, lengthRead);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
