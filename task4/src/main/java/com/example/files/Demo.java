@@ -6,9 +6,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.*;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class Demo {
@@ -26,7 +28,10 @@ public class Demo {
         }
          //Create dummy file:
         if (Files.isDirectory(Paths.get(args[0]))) {
-            createDummyHugeFile(args[0]);
+            boolean checkIfExists = new File(args[0], "hugefile.txt").exists();
+            if (checkIfExists == false) {
+                createDummyHugeFile(args[0]);
+            }
         }
 
         File in = new File(args[0] + "\\hugefile.txt");
@@ -35,7 +40,8 @@ public class Demo {
         File outChannel = new File(args[0] + "\\COPYChannel_hugefile.txt");
         File outFiles = new File(args[0] + "\\COPYFiles_hugefile.txt");
 
-        String myURLTxt = "https://raw.githubusercontent.com/KalashM/TestNewProject/436416cee51e4a5f614ebe0004017fdd80814356/task4/src/main/java/com/example/files/MyFiles.java";
+        String myURLTxt = getUrl("url1");
+        System.out.println(myURLTxt);
         String outPathTxt = args[0];
 
         LOGGER.info("File size = " + (in.length() / (1024 * 1024)) + " mb");
@@ -116,6 +122,20 @@ public class Demo {
             channel.write(buf);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static String getUrl(String urlKey) throws IOException {
+        try (InputStream input = Demo.class.getClassLoader().getResourceAsStream("url.properties")) {
+            Properties props = new Properties();
+
+            if (input == null) {
+                LOGGER.debug("Unable to find url.properties file");
+                return "";
+            }
+
+            props.load(input);
+            return props.getProperty(urlKey);
         }
     }
 }
