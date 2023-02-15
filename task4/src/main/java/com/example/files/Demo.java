@@ -17,7 +17,7 @@ public class Demo {
 
     private static Logger LOGGER = LoggerFactory.getLogger(Demo.class);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         LOGGER.info("Look up files in a directory by pattern:");
         Path dir = Paths.get("task4\\src\\main\\java\\com\\example\\files");
@@ -97,7 +97,7 @@ public class Demo {
         LOGGER.info("Time taken to copy file from URL using Java Files = " + convert + " seconds");
 
         LOGGER.info("Test reading a Matrix from a file:");
-        Integer[][] myMatrix = MyFiles.readMatrixFromFile(new File("task4\\src\\test\\resources\\matrix.txt"));
+        Integer[][] myMatrix = MyFiles.readMatrixFromFile(new File(Demo.class.getClassLoader().getResource("matrix.txt").getPath()));
         LOGGER.info("Find average value of all matrix elements:");
         int sum = 0;
         int count = 0;
