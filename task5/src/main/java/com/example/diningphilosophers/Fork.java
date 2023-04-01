@@ -1,19 +1,31 @@
 package com.example.diningphilosophers;
 
 public class Fork {
-    private int number;
+    private final int number;
     private boolean isFree = true;
+    private int philosopherUsingThisFork;
 
     public Fork(int number) {
         this.number = number;
     }
 
-    public void getFork() {
-        this.isFree = false;
+    public synchronized void takeFork(int philosopherId) {
+        while (!isFree) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        philosopherUsingThisFork = philosopherId;
+        isFree = false;
     }
 
-    public void putFork() {
-        this.isFree = true;
+    public synchronized void putFork(int philisopherID) {
+        if (!isFree && philosopherUsingThisFork == philisopherID) {
+            isFree = true;
+            notify();
+        }
     }
 
     public int getNumber() {
