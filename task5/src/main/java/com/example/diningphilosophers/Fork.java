@@ -21,8 +21,8 @@ public class Fork {
         isFree = false;
     }
 
-    public synchronized void putFork(int philisopherID) {
-        if (!isFree && philosopherUsingThisFork == philisopherID) {
+    public synchronized void putFork(int philosopherID) {
+        if (!isFree && philosopherUsingThisFork == philosopherID) {
             isFree = true;
             notify();
         }
