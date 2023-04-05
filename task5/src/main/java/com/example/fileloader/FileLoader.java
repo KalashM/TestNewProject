@@ -1,6 +1,7 @@
 package com.example.fileloader;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.*;
@@ -39,7 +40,7 @@ public class FileLoader {
         }
     }
 
-    public static void downloadFromURL(String url) throws MalformedURLException {
+    public static void downloadFromURL(String url) throws IOException {
 
         String filename = Paths.get(new URL(url).getPath()).getFileName().toString();
 
@@ -52,16 +53,47 @@ public class FileLoader {
             localFilename = location + filename;
             i++;
         }
+        if (isBrokenUrl(url)) {
+            System.out.println(getReasonIfBroken(getUrlResponseCode(url)));
+            return;
+        } else {
+            System.out.println("Link is not broken");
+        }
 
         System.out.println("Downloading is started...");
         try (InputStream in = new URL(url).openStream()) {
             Files.copy(in, Paths.get(localFilename));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Downloading of " + filename + " is completed....");
+
+    }
+
+    public static int getUrlResponseCode(String url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        int code = connection.getResponseCode();
+        connection.disconnect();
+        return code;
+    }
+
+    public static boolean isBrokenUrl(String url) throws IOException {
+        if (getUrlResponseCode(url) == 200) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static String getReasonIfBroken(int code) {
+        if (code == 404) {
+            return "File not found";
+        } else if (code == 403) {
+            return "Access Forbidden by server";
+        } else if (code == 302) {
+            return "File temporarily moved";
+        } else
+            return "Unknown reason";
 
     }
 }
