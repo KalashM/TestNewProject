@@ -8,7 +8,7 @@ import java.nio.file.*;
 import java.util.Properties;
 import java.util.Set;
 
-public class FileLoader {
+public class FileLoader implements Runnable {
 
     private static String linksToBeDownloadedPath = Thread.currentThread().getContextClassLoader().getResource("linksToDownload.properties").getPath();
     private static String location;
@@ -78,7 +78,7 @@ public class FileLoader {
     }
 
     public static boolean isBrokenUrl(String url) throws IOException {
-        if (getUrlResponseCode(url) == 200) {
+        if (getUrlResponseCode(url) == 200 || getUrlResponseCode(url) == 302) {
             return false;
         } else {
             return true;
@@ -90,10 +90,13 @@ public class FileLoader {
             return "File not found";
         } else if (code == 403) {
             return "Access Forbidden by server";
-        } else if (code == 302) {
-            return "File temporarily moved";
-        } else
+        } else {
             return "Unknown reason";
+        }
+    }
 
+    @Override
+    public void run() {
+        //to be implemented
     }
 }
