@@ -1,65 +1,77 @@
 package com.example.fileloader;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.*;
-import java.util.Properties;
-import java.util.Set;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FileLoader implements Runnable {
 
-    private static String linksToBeDownloadedPath = Thread.currentThread().getContextClassLoader().getResource("linksToDownload.properties").getPath();
-    private static String location;
+    private static URI linksToBeDownloadedPath;
 
-    public static void main(String[] args) throws IOException {
-
-        System.out.println(args.length);
-
-        if (args.length == 0) {
-            location = "D:\\Java\\Task5Downloads\\";
-        } else {
-            File dir = new File(args[0]);
-            if (dir.exists() && dir.isDirectory()) {
-                location = args[0];
-            }
-        }
-
-        Properties links = new Properties();
-        links.load(new FileInputStream(linksToBeDownloadedPath));
-
-        final Set<String> keys = links.stringPropertyNames();
-
-        for (String key: keys) {
-            try {
-                downloadFromURL(links.getProperty(key));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+    static {
+        try {
+            linksToBeDownloadedPath = Thread.currentThread().getContextClassLoader().getResource("linksToDownload.properties").toURI();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void downloadFromURL(String url) throws IOException {
+    private static List<String> allLinks;
 
-        String filename = Paths.get(new URL(url).getPath()).getFileName().toString();
+    static {
+        try {
+            allLinks = Files.readAllLines(Paths.get(linksToBeDownloadedPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String location = "D:\\Java\\Task5Downloads\\";
+    private String url;
+
+    public FileLoader(String url) {
+        this.url = url;
+    }
+
+    public static void main(String[] args) {
+
+        ExecutorService pool = Executors.newFixedThreadPool(5);
+        for (String link: allLinks) {
+            System.out.println(link);
+            pool.submit(new FileLoader(link));
+        }
+        pool.shutdown();
+    }
+
+    public static void downloadFromURL(String url) {
+
+        String filename = null;
+        try {
+            filename = Paths.get(new URL(url).getPath()).getFileName().toString();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         String localFilename = location + filename;
 
         int i = 1;
 
         while (new File(localFilename).exists()) {
-            filename = "Copy " + "(" + i + ") " + Paths.get(new URL(url).getPath()).getFileName().toString();
+            try {
+                filename = "Copy " + "(" + i + ") " + Paths.get(new URL(url).getPath()).getFileName().toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             localFilename = location + filename;
             i++;
         }
         if (isBrokenUrl(url)) {
             System.out.println(getReasonIfBroken(getUrlResponseCode(url)));
             return;
-        } else {
-            System.out.println("Link is not broken");
         }
-
         System.out.println("Downloading is started...");
         try (InputStream in = new URL(url).openStream()) {
             Files.copy(in, Paths.get(localFilename));
@@ -70,14 +82,24 @@ public class FileLoader implements Runnable {
 
     }
 
-    public static int getUrlResponseCode(String url) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        int code = connection.getResponseCode();
+    public static int getUrlResponseCode(String url)  {
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) new URL(url).openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int code = 0;
+        try {
+            code = connection.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         connection.disconnect();
         return code;
     }
 
-    public static boolean isBrokenUrl(String url) throws IOException {
+    public static boolean isBrokenUrl(String url)  {
         if (getUrlResponseCode(url) == 200 || getUrlResponseCode(url) == 302) {
             return false;
         } else {
@@ -97,6 +119,6 @@ public class FileLoader implements Runnable {
 
     @Override
     public void run() {
-        //to be implemented
+        downloadFromURL(url);
     }
 }
