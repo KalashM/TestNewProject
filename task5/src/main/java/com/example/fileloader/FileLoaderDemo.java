@@ -3,6 +3,7 @@ package com.example.fileloader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,6 +27,8 @@ public class FileLoaderDemo {
         }
     }
 
+    private static final String LOCATION = "D:\\downloads\\Task5Downloads\\";
+
     public static void main(String[] args) {
 
         LOGGER.info("Log from {}", FileLoaderDemo.class.getSimpleName());
@@ -42,10 +45,18 @@ public class FileLoaderDemo {
             LOGGER.error(e.getMessage());
         }
 
+        if (!(new File(LOCATION).exists())) {
+            try {
+                Files.createDirectory(Paths.get(LOCATION));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         ExecutorService pool = Executors.newFixedThreadPool(nThreads);
 
         for (String link: allLinks) {
-            pool.submit(new FileLoader(link));
+            pool.submit(new FileLoader(link, LOCATION));
         }
         pool.shutdown();
     }

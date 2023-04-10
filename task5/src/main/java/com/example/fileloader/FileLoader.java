@@ -11,20 +11,20 @@ public class FileLoader implements Runnable {
 
     private static Logger LOGGER = LoggerFactory.getLogger(FileLoader.class);
 
-    private static String location = "D:\\Java\\Task5Downloads\\";
+    private String location;
     private String url;
 
-    public FileLoader(String url) {
+    public FileLoader(String url, String location) {
         this.url = url;
+        this.location = location;
     }
 
-    public static void downloadFromURL(String url) {
+    public void downloadFromURL(String url) {
 
         String filename = null;
         try {
             filename = Paths.get(new URL(url).getPath()).getFileName().toString();
         } catch (MalformedURLException e) {
-            //e.printStackTrace();
             LOGGER.error(e.getMessage());
         }
 
@@ -36,27 +36,23 @@ public class FileLoader implements Runnable {
             try {
                 filename = "Copy " + "(" + i + ") " + Paths.get(new URL(url).getPath()).getFileName().toString();
             } catch (MalformedURLException e) {
-                //e.printStackTrace();
                 LOGGER.error(e.getMessage());
             }
             localFilename = location + filename;
             i++;
         }
         if (isBrokenUrl(url)) {
-            //System.out.println(getReasonIfBroken(getUrlResponseCode(url)));
             LOGGER.warn("URL (" + url + ") is broken: " + getReasonIfBroken(getUrlResponseCode(url)));
             return;
         }
-        //System.out.println("Downloading is started...");
         LOGGER.info("Downloading is started...");
         try (InputStream in = new URL(url).openStream()) {
             Files.copy(in, Paths.get(localFilename));
+            LOGGER.info("Downloading of " + filename + " is completed.");
         } catch (IOException e) {
-            //e.printStackTrace();
             LOGGER.error(e.getMessage());
+            LOGGER.error("Downloading of " + filename + " is failed.");
         }
-        //System.out.println("Downloading of " + filename + " is completed....");
-        LOGGER.info("Downloading of " + filename + " is completed....");
     }
 
     public static int getUrlResponseCode(String url)  {
@@ -64,7 +60,7 @@ public class FileLoader implements Runnable {
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warn("Cannot connect to the source URL.");
         }
         int code = 0;
         try {
