@@ -1,33 +1,15 @@
 package com.example.fileloader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.*;
 import java.nio.file.*;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class FileLoader implements Runnable {
 
-    private static URI linksToBeDownloadedPath;
-
-    static {
-        try {
-            linksToBeDownloadedPath = Thread.currentThread().getContextClassLoader().getResource("linksToDownload.properties").toURI();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static List<String> allLinks;
-
-    static {
-        try {
-            allLinks = Files.readAllLines(Paths.get(linksToBeDownloadedPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static Logger LOGGER = LoggerFactory.getLogger(FileLoader.class);
 
     private static String location = "D:\\Java\\Task5Downloads\\";
     private String url;
@@ -36,23 +18,14 @@ public class FileLoader implements Runnable {
         this.url = url;
     }
 
-    public static void main(String[] args) {
-
-        ExecutorService pool = Executors.newFixedThreadPool(5);
-        for (String link: allLinks) {
-            System.out.println(link);
-            pool.submit(new FileLoader(link));
-        }
-        pool.shutdown();
-    }
-
     public static void downloadFromURL(String url) {
 
         String filename = null;
         try {
             filename = Paths.get(new URL(url).getPath()).getFileName().toString();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
 
         String localFilename = location + filename;
@@ -63,23 +36,27 @@ public class FileLoader implements Runnable {
             try {
                 filename = "Copy " + "(" + i + ") " + Paths.get(new URL(url).getPath()).getFileName().toString();
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                LOGGER.error(e.getMessage());
             }
             localFilename = location + filename;
             i++;
         }
         if (isBrokenUrl(url)) {
-            System.out.println(getReasonIfBroken(getUrlResponseCode(url)));
+            //System.out.println(getReasonIfBroken(getUrlResponseCode(url)));
+            LOGGER.warn("URL (" + url + ") is broken: " + getReasonIfBroken(getUrlResponseCode(url)));
             return;
         }
-        System.out.println("Downloading is started...");
+        //System.out.println("Downloading is started...");
+        LOGGER.info("Downloading is started...");
         try (InputStream in = new URL(url).openStream()) {
             Files.copy(in, Paths.get(localFilename));
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
-        System.out.println("Downloading of " + filename + " is completed....");
-
+        //System.out.println("Downloading of " + filename + " is completed....");
+        LOGGER.info("Downloading of " + filename + " is completed....");
     }
 
     public static int getUrlResponseCode(String url)  {
