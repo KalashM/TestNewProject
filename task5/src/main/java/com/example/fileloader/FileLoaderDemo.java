@@ -22,17 +22,7 @@ public class FileLoaderDemo {
         try {
             linksToBeDownloadedPath = Thread.currentThread().getContextClassLoader().getResource("linksToDownload.properties").toURI();
         } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static List<String> allLinks;
-
-    static {
-        try {
-            allLinks = Files.readAllLines(Paths.get(linksToBeDownloadedPath));
-        } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -45,11 +35,22 @@ public class FileLoaderDemo {
             nThreads = Integer.parseInt(args[0]);
         }
 
+        List<String> allLinks = null;
+        try {
+            allLinks = getAllLinks(linksToBeDownloadedPath);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+
         ExecutorService pool = Executors.newFixedThreadPool(nThreads);
 
         for (String link: allLinks) {
             pool.submit(new FileLoader(link));
         }
         pool.shutdown();
+    }
+
+    public static List<String> getAllLinks(URI linksToBeDownloadedPath) throws IOException {
+        return Files.readAllLines(Paths.get(linksToBeDownloadedPath));
     }
 }
