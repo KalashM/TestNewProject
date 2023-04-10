@@ -115,7 +115,7 @@ public class Demo {
         final ByteBuffer buf = ByteBuffer.allocate(4).putInt(2);
         buf.rewind();
 
-        final OpenOption[] options = {StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW , StandardOpenOption.SPARSE};
+        final OpenOption[] options = {StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW, StandardOpenOption.SPARSE};
         final Path hugeFile = Paths.get(path + "\\hugefile.txt");
         try (final SeekableByteChannel channel = Files.newByteChannel(hugeFile, options);) {
             channel.position(1024 * 1024 * 1024);
