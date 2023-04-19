@@ -3,3 +3,15 @@ buildscript {
         mavenCentral()
     }
 }
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.fileloader.FileLoaderDemo'
+    }
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+javadoc {
+    classpath += sourceSets.test.compileClasspath
+    source += sourceSets.test.allJava
+    destinationDir = reporting.file("task5/build/docs/javadoc")
+}
