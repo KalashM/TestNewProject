@@ -24,7 +24,7 @@ public class FileLoader implements Runnable {
         this.location = location;
     }
 
-    public void downloadFromURL(String url) {
+    public void downloadFromURL() {
 
         String filename = null;
         try {
@@ -46,8 +46,8 @@ public class FileLoader implements Runnable {
             localFilename = location + filename;
             i++;
         }
-        if (isBrokenUrl(url)) {
-            LOGGER.warn("URL (" + url + ") is broken: " + getReasonIfBroken(getUrlResponseCode(url)));
+        if (isBrokenUrl()) {
+            LOGGER.warn("URL (" + url + ") is broken: " + getReasonIfBroken(getUrlResponseCode()));
             return;
         }
         LOGGER.info("Downloading is started...");
@@ -60,7 +60,7 @@ public class FileLoader implements Runnable {
         }
     }
 
-    public static int getUrlResponseCode(String url)  {
+    public int getUrlResponseCode()  {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
@@ -77,8 +77,8 @@ public class FileLoader implements Runnable {
         return code;
     }
 
-    public static boolean isBrokenUrl(String url)  {
-        if (getUrlResponseCode(url) == 200 || getUrlResponseCode(url) == 302) {
+    public boolean isBrokenUrl()  {
+        if (getUrlResponseCode() == 200 || getUrlResponseCode() == 302) {
             return false;
         } else {
             return true;
@@ -97,6 +97,6 @@ public class FileLoader implements Runnable {
 
     @Override
     public void run() {
-        downloadFromURL(url);
+        downloadFromURL();
     }
 }
