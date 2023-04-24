@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -27,7 +28,7 @@ public class FileLoaderDemo {
         }
     }
 
-    private static final String LOCATION = "D:\\downloads\\Task5Downloads\\";
+    private static final String LOCATION = System.getProperty("user.dir") + "\\Task5Downloads\\";
 
     public static void main(String[] args) {
 
@@ -49,7 +50,7 @@ public class FileLoaderDemo {
             try {
                 Files.createDirectory(Paths.get(LOCATION));
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage());
             }
         }
 
