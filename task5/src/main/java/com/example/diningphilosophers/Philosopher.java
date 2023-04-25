@@ -1,37 +1,46 @@
 package com.example.diningphilosophers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.Semaphore;
 
 public class Philosopher extends Thread {
 
     private static final Semaphore SEMAPHORE = new Semaphore(4);
+    private static Logger LOGGER = LoggerFactory.getLogger(Philosopher.class);
 
-    private int id;
+    private int philosopherId;
     private Fork leftFork;
     private Fork rightFork;
 
     public Philosopher(int n, Fork leftFork, Fork rightFork) {
-        this.id = n;
+        this.philosopherId = n;
         this.leftFork = leftFork;
         this.rightFork = rightFork;
     }
 
+    public int getPhilosopherId() {
+        return philosopherId;
+    }
+
     @Override
     public void run() {
-        System.out.println(Thread.currentThread().getName() + " is running for philosopher " + id);
+        LOGGER.info("Log from {}", Philosopher.class.getSimpleName());
+        LOGGER.info(Thread.currentThread().getName() + " is running for philosopher " + philosopherId);
         while (true) {
-            System.out.println("Philosopher " + id + " is thinking...");
+            LOGGER.info("Philosopher " + philosopherId + " is thinking...");
             SEMAPHORE.acquireUninterruptibly();
-            rightFork.takeFork(id);
-            System.out.println("Philosopher " + id + " took the right fork " + rightFork.getNumber());
-            leftFork.takeFork(id);
+            rightFork.takeFork(philosopherId);
+            LOGGER.info("Philosopher " + philosopherId + " took the right fork " + rightFork.getNumber());
+            leftFork.takeFork(philosopherId);
             SEMAPHORE.release();
-            System.out.println("Philosopher " + id + " took the left fork " + leftFork.getNumber());
-            System.out.println("Philosopher " + id + " is eating...");
-            leftFork.putFork(id);
-            System.out.println("Philosopher " + id + " has put down the left fork " + leftFork.getNumber());
-            rightFork.putFork(id);
-            System.out.println("Philosopher " + id + " has put down the right fork " + rightFork.getNumber());
+            LOGGER.info("Philosopher " + philosopherId + " took the left fork " + leftFork.getNumber());
+            LOGGER.info("Philosopher " + philosopherId + " is eating...");
+            leftFork.putFork(philosopherId);
+            LOGGER.info("Philosopher " + philosopherId + " has put down the left fork " + leftFork.getNumber());
+            rightFork.putFork(philosopherId);
+            LOGGER.info("Philosopher " + philosopherId + " has put down the right fork " + rightFork.getNumber());
         }
     }
 }
