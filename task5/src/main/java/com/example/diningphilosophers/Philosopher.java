@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Philosopher extends Thread {
 
-    private static final Semaphore SEMAPHORE = new Semaphore(4);
+    private static final Semaphore SEMAPHORE = new Semaphore(Feast.getNumberOfPhilosophers() - 1);
     private static Logger LOGGER = LoggerFactory.getLogger(Philosopher.class);
 
     private int philosopherId;

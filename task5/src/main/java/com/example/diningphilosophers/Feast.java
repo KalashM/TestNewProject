@@ -1,8 +1,14 @@
 package com.example.diningphilosophers;
 
 public class Feast {
-    public static Philosopher[] createPhilosophers(int n) {
+    private static int numberOfPhilosophers = 0;
 
+    public static int getNumberOfPhilosophers() {
+        return numberOfPhilosophers;
+    }
+
+    public static Philosopher[] createPhilosophers(int n) {
+        numberOfPhilosophers = n;
         Fork[] forks = new Fork[n];
 
         for (int i = 0; i < n; i++) {
