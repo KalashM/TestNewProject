@@ -8,6 +8,7 @@ public class Feast {
     }
 
     public static Philosopher[] createPhilosophers(int n) {
+
         numberOfPhilosophers = n;
         Fork[] forks = new Fork[n];
 

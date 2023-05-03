@@ -21,6 +21,10 @@ public class Philosopher extends Thread {
         this.rightFork = rightFork;
     }
 
+    public int getPhilosopherId() {
+        return philosopherId;
+    }
+
     void performAction(String action) {
        int waitTime = ThreadLocalRandom.current().nextInt(0,1000);
        LOGGER.info("Philosopher " + philosopherId + " " + action + " for " + waitTime + " ms");
@@ -30,19 +34,19 @@ public class Philosopher extends Thread {
     public void run() {
         LOGGER.info("Log from {}", Philosopher.class.getSimpleName());
         LOGGER.info(Thread.currentThread().getName() + " is running for philosopher " + philosopherId);
-        while (true) {
-            performAction("eats");
+        while (!isInterrupted()) {
             SEMAPHORE.acquireUninterruptibly();
-            rightFork.takeFork(philosopherId);
+            rightFork.takeFork(this);
             LOGGER.info("Philosopher " + philosopherId + " took the right fork " + rightFork.getNumber());
-            leftFork.takeFork(philosopherId);
-            SEMAPHORE.release();
+            leftFork.takeFork(this);
             LOGGER.info("Philosopher " + philosopherId + " took the left fork " + leftFork.getNumber());
-            performAction("thinks");
-            leftFork.putFork(philosopherId);
+            SEMAPHORE.release();
+            performAction("eats");
+            leftFork.putFork(this);
             LOGGER.info("Philosopher " + philosopherId + " has put down the left fork " + leftFork.getNumber());
-            rightFork.putFork(philosopherId);
+            rightFork.putFork(this);
             LOGGER.info("Philosopher " + philosopherId + " has put down the right fork " + rightFork.getNumber());
+            performAction("thinks");
         }
     }
 }

@@ -9,6 +9,5 @@ public class Demo {
         for (Philosopher philosopher : philosophers) {
             philosopher.start();
         }
-
     }
 }
