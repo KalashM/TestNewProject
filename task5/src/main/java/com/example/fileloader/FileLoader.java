@@ -78,11 +78,7 @@ public class FileLoader implements Runnable {
     }
 
     public boolean isBrokenUrl()  {
-        if (getUrlResponseCode() == 200 || getUrlResponseCode() == 302) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(getUrlResponseCode() == 200 || getUrlResponseCode() == 302);
     }
 
     public static String getReasonIfBroken(int code) {
