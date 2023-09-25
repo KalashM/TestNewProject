@@ -1,6 +1,8 @@
 package com.example.beansvalidation;
 
 import com.example.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,6 +11,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Validator {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(Validator.class);
+
     public static List<String> validate(Object o) {
 
         List<String> messagesList = new ArrayList<String>();
@@ -16,17 +21,17 @@ public class Validator {
 
         for (Field field: cl.getDeclaredFields()) {
             field.setAccessible(true);
-            //System.out.println(field.getName() + ": ");
+            LOGGER.debug("Field name - {}.", field.getName());
 
             AssertFalse af = field.getAnnotation(AssertFalse.class);
             if (af != null) {
-                //System.out.println(af.message());
+                LOGGER.debug(af.message());
                 messagesList.add(af.message());
             }
 
             AssertTrue at = field.getAnnotation(AssertTrue.class);
             if (at != null) {
-                //System.out.println(at.message());
+                LOGGER.debug(at.message());
                 messagesList.add(at.message());
             }
 
@@ -39,7 +44,7 @@ public class Validator {
                                 .matcher(value.toString())
                                 .matches();
                         if (!isMatchPattern) {
-                            //System.out.println(email.message());
+                            LOGGER.debug(email.message());
                             messagesList.add(email.message());
                         }
                     }
@@ -55,12 +60,12 @@ public class Validator {
                     if (value != null) {
                         int valueLen = value.toString().length();
                         if (valueLen > maxLen.len()) {
-                            //System.out.println(maxLen.message());
+                            LOGGER.debug(maxLen.message());
                             messagesList.add(maxLen.message());
                         }
                     }
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
             }
 
@@ -71,12 +76,12 @@ public class Validator {
                     if (value != null) {
                         int valueLen = value.toString().length();
                         if (valueLen < maxLen.len()) {
-                            //System.out.println(minLen.message());
+                            LOGGER.debug(minLen.message());
                             messagesList.add(minLen.message());
                         }
                     }
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
             }
 
@@ -85,11 +90,11 @@ public class Validator {
                 try {
                     Object value = field.get(o);
                     if (Objects.isNull(value) || value.equals(0)) {
-                        //System.out.println(notNullOrEmpty.message());
+                        LOGGER.debug(notNullOrEmpty.message());
                         messagesList.add(notNullOrEmpty.message());
                     }
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
             }
         }
