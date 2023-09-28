@@ -4,22 +4,22 @@ import com.example.annotations.*;
 
 public class Employee {
 
-    @NotNullOrEmpty(message = "Id cannot be empty")
+    @NotNullOrEmpty(message = "error.employee.id.empty")
     private int id;
 
-    @MinLength(len = 2, message = "First Name must contain at least 2 characters")
-    @MaxLength(len = 20, message = "First Name length must not exceed 20 characters")
+    @MinLength(len = 2, message = "error.employee.firstName.minLength")
+    @MaxLength(len = 20, message = "error.employee.firstName.maxLength")
     private String firstName;
 
-    @NotNullOrEmpty(message = "Last Name cannot be empty")
-    @MinLength(len = 2, message = "Last Name must contain at least 2 characters")
-    @MaxLength(len = 20, message = "Last Name length must not exceed 20 characters")
+    @NotNullOrEmpty(message = "error.employee.lastName.empty")
+    @MinLength(len = 2, message = "error.employee.lastName.minLength")
+    @MaxLength(len = 20, message = "error.employee.lastName.maxLength")
     private String lastName;
 
-    @Email(message = "The email address is not valid")
+    @Email(message = "error.employee.email.noValid")
     private String email;
 
-    @AssertTrue(message = "Employee must speak Ukrainian")
+    @AssertTrue(message = "error.employee.speaksUkrainian.false")
     private boolean speaksUkrainian;
 
     public Employee() {

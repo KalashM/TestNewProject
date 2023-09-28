@@ -16,7 +16,7 @@ public class Validator {
 
     public static List<String> validate(Object o) {
 
-        List<String> messagesList = new ArrayList<String>();
+        List<String> messagesList = new ArrayList<>();
         Class cl = o.getClass();
 
         for (Field field: cl.getDeclaredFields()) {
