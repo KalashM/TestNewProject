@@ -15,9 +15,7 @@ public class Demo {
     public static void main(String[] args) {
         Locale locale = Locale.ROOT;
         if (args.length > 0) {
-            if (args[0].equalsIgnoreCase("en")) {
-                locale = Locale.ENGLISH;
-            } else if (args[0].equalsIgnoreCase("de")) {
+            if (args[0].equalsIgnoreCase("de")) {
                 locale = Locale.GERMAN;
             } else if (args[0].equalsIgnoreCase("ukr")) {
                 locale = new Locale.Builder().setLanguage("ukr").setScript("Cyrl").build();
