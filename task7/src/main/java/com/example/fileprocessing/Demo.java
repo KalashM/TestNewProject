@@ -32,12 +32,8 @@ public class Demo {
         String link = Files.readAllLines(Paths.get(linkToBeDownloadedPath)).get(0);
 
         if (!(new File(LOCATION).exists())) {
-            try {
-                Files.createDirectory(Paths.get(LOCATION));
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage());
-            }
-        }
+            Files.createDirectory(Paths.get(LOCATION));
+         }
 
         new FileLoader(link, LOCATION).run();
     }

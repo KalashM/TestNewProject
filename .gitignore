@@ -14,3 +14,7 @@ MariTest.iml
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
 *.css
+
+# Ignore project generated directories
+Task5Downloads/
+Task7Downloads/
