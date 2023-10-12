@@ -48,13 +48,23 @@ public class XmlReader {
 
                     if (proteinEntryNode instanceof Element
                             && proteinEntryNode.getNodeName().equals("protein")
-                            && proteinEntryNode.getAttributes().getNamedItem("name").getNodeValue().equals("cytochrome c")
                     ) {
-                        proteinEntryId = node.getAttributes().getNamedItem("id").getNodeValue();
-                        proteinEntryList.add(proteinEntryId);
+                        NodeList proteinEntryProteinNodeList = proteinEntryNode.getChildNodes();
+
+                        for (int k = 0; k < proteinEntryProteinNodeList.getLength(); k++) {
+                            Node proteinEntryProteinNode = proteinEntryProteinNodeList.item(k);
+                            if (proteinEntryProteinNode instanceof Element
+                                    && proteinEntryProteinNode.getNodeName().equals("name")
+                                    && proteinEntryProteinNode.getTextContent().equals("cytochrome c")
+                            ) {
+                                proteinEntryId = node.getAttributes().getNamedItem("id").getNodeValue();
+                                proteinEntryList.add(proteinEntryId);
+                            }
+                        }
+
                     }
                 }
-                //System.out.println(proteinEntryId);
+
                 cnt++;
             }
         }

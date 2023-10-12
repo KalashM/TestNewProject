@@ -5,7 +5,7 @@ buildscript {
 }
 jar {
     manifest {
-        //attributes 'Main-Class': 'com.example.fileloader.FileLoaderDemo'
+        attributes 'Main-Class': 'com.example.fileprocessing.XmlReader'
     }
     from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }
