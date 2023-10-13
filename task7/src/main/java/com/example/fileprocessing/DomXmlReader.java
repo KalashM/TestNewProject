@@ -14,8 +14,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XmlReader {
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+public class DomXmlReader {
+
+    private static File fileToParse;
+
+    public DomXmlReader(File file) {
+        fileToParse = file;
+    }
+
+    public static Document parseDocument() throws ParserConfigurationException, IOException, SAXException {
         //Get the DOM Builder Factory
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -24,8 +31,12 @@ public class XmlReader {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         //Load and Parse the XML document
-        Document document = builder.parse(new File(System.getProperty("user.dir") + "\\Task7Downloads\\test.xml"));
+        Document document = builder.parse(fileToParse);
 
+        return document;
+    }
+
+    public static List<String> getProteinEntryIdList(Document document) {
         //Iterating through the nodes and extracting the data.
         NodeList nodeList = document.getDocumentElement().getChildNodes();
 
@@ -60,9 +71,6 @@ public class XmlReader {
                 }
             }
         }
-
-        for (String proteinEntry : proteinEntryList) {
-            System.out.println(proteinEntry);
-        }
+        return proteinEntryList;
     }
 }
