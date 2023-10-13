@@ -18,8 +18,7 @@ import java.util.List;
 public class XmlReader {
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         //Get the DOM Builder Factory
-        DocumentBuilderFactory factory =
-                DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         //Get the DOM Builder
@@ -27,14 +26,11 @@ public class XmlReader {
 
         //Load and Parse the XML document
         Document document = builder.parse(new File(System.getProperty("user.dir") + "\\Task7Downloads\\psd7003.xml"));
-                //ClassLoader.getSystemResourceAsStream(System.getProperty("user.dir") + "\\Task5Downloads\\psd7003.xml"));
 
         //Iterating through the nodes and extracting the data.
         NodeList nodeList = document.getDocumentElement().getChildNodes();
 
         List<String> proteinEntryList = new ArrayList<>();
-
-        int cnt = 0;
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
@@ -61,18 +57,24 @@ public class XmlReader {
                                 proteinEntryList.add(proteinEntryId);
                             }
                         }
-
                     }
                 }
-
-                cnt++;
             }
         }
 
         for (String proteinEntry: proteinEntryList) {
             System.out.println(proteinEntry);
         }
-        System.out.println("cnt = " + cnt);
+    }
 
+    public static NodeList getChildNodes(NodeList nodeList, String nodeName) {
+        NodeList childNodes = null;
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node instanceof Element && node.getNodeName().equals(nodeName)) {
+                childNodes = node.getChildNodes();
+            }
+        }
+        return childNodes;
     }
 }
