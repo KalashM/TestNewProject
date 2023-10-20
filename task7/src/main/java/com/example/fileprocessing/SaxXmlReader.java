@@ -31,7 +31,8 @@ public class SaxXmlReader {
 class MySAXHandler extends DefaultHandler {
 
     private boolean isProtein = false;
-    private boolean isName = false;
+    private String tagContent = null;
+
     private List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry = null;
 
@@ -40,44 +41,30 @@ class MySAXHandler extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
         if (qName.equals("ProteinEntry")) {
             proteinEntry = new ProteinEntry();
-            proteinEntry.id = attributes.getValue("id");
+            proteinEntry.setId(attributes.getValue("id"));
         } else if (qName.equals("protein")) {
             isProtein = true;
-        } else if (qName.equals("name")) {
-            isName = true;
         }
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName) {
         if (qName.equals("ProteinEntry")) {
-            if (proteinEntry.name.equals("cytochrome c")) {
+            if (proteinEntry.getName().equals("cytochrome c")) {
                 proteinEntryList.add(proteinEntry);
             }
         } else if (qName.equals("protein")) {
             isProtein = false;
         } else if (isProtein && qName.equals("name")) {
-            isName = false;
+            proteinEntry.setName(tagContent);
         }
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        if (isProtein && isName) {
-            proteinEntry.name = new String(ch, start, length);
-           // System.out.println("Protein Name: " + proteinEntry.name);
-        }
-    }
-}
-
-class ProteinEntry {
-    public String id;
-    public String name = null;
-
-    public String toString() {
-        return id;
+    public void characters(char[] ch, int start, int length) {
+        tagContent = new String(ch, start, length);
     }
 }
