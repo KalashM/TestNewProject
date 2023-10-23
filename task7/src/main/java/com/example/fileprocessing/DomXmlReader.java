@@ -16,13 +16,16 @@ import java.util.List;
 
 public class DomXmlReader {
 
-    private static File fileToParse;
+    private File fileToParse;
+    private List<ProteinEntry> proteinEntryList = new ArrayList<>();
+    private ProteinEntry proteinEntry = null;
 
     public DomXmlReader(File file) {
-        fileToParse = file;
+        this.fileToParse = file;
     }
 
-    public static Document parseDocument() throws ParserConfigurationException, IOException, SAXException {
+    public List<ProteinEntry> getProteinEntryIdList() throws ParserConfigurationException, IOException, SAXException {
+
         //Get the DOM Builder Factory
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -31,20 +34,17 @@ public class DomXmlReader {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         //Load and Parse the XML document
-        Document document = builder.parse(fileToParse);
+        Document document = builder.parse(this.fileToParse);
 
-        return document;
-    }
-
-    public static List<String> getProteinEntryIdList(Document document) {
         //Iterating through the nodes and extracting the data.
         NodeList nodeList = document.getDocumentElement().getChildNodes();
 
-        List<String> proteinEntryList = new ArrayList<>();
+        //List<ProteinEntry> proteinEntryList = new ArrayList<>();
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            String proteinEntryId = null;
+            //String proteinEntryId = null;
+            this.proteinEntry = new ProteinEntry();
 
             if (node instanceof Element && node.getNodeName().equals("ProteinEntry")) {
                 NodeList proteinEntryNodeList = node.getChildNodes();
@@ -63,8 +63,10 @@ public class DomXmlReader {
                                     && proteinEntryProteinNode.getNodeName().equals("name")
                                     && proteinEntryProteinNode.getTextContent().equals("cytochrome c")
                             ) {
-                                proteinEntryId = node.getAttributes().getNamedItem("id").getNodeValue();
-                                proteinEntryList.add(proteinEntryId);
+                                proteinEntry.setId(node.getAttributes().getNamedItem("id").getNodeValue());
+                                proteinEntry.setName("cytochrome c");
+                                //proteinEntryId = node.getAttributes().getNamedItem("id").getNodeValue();
+                                this.proteinEntryList.add(proteinEntry);
                             }
                         }
                     }

@@ -20,7 +20,4 @@ public class ProteinEntry {
         this.name = name;
     }
 
-    public String toString() {
-        return id;
-    }
 }

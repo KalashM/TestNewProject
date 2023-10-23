@@ -13,19 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaxXmlReader {
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+
+    private File fileToParse;
+
+    public SaxXmlReader(File file) {
+        this.fileToParse = file;
+    }
+
+    public List<ProteinEntry> getProteinEntryIdList() throws SAXException, ParserConfigurationException, IOException {
+
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
         parserFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
 
         SAXParser parser = parserFactory.newSAXParser();
         MySAXHandler handler = new MySAXHandler();
-        parser.parse(new File(System.getProperty("user.dir") + "\\Task7Downloads\\psd7003.xml"), handler);
+        parser.parse(this.fileToParse, handler);
         //parser.parse(new File(System.getProperty("user.dir") + "\\Task7Downloads\\test.xml"), handler);
 
-        for (ProteinEntry protein : handler.getProteinEntryList()) {
-            System.out.println(protein);
-        }
+        return handler.getProteinEntryList();
     }
+
 }
 
 class MySAXHandler extends DefaultHandler {

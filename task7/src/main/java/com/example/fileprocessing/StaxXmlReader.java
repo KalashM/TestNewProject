@@ -12,14 +12,20 @@ import java.util.List;
 
 public class StaxXmlReader {
 
-    public static void main(String[] args) throws XMLStreamException, IOException {
+    private static File fileToParse;
+
+    public StaxXmlReader(File file) {
+        this.fileToParse = file;
+    }
+
+    public List<ProteinEntry> getProteinEntryIdList() throws XMLStreamException, IOException {
         XMLInputFactory factory = XMLInputFactory.newInstance();
 
         factory.setProperty("javax.xml.stream.supportDTD", false);
 
-        File fileToParse = new File(System.getProperty("user.dir") + "\\Task7Downloads\\psd7003.xml");
+        // File fileToParse = new File(System.getProperty("user.dir") + "\\Task7Downloads\\psd7003.xml");
 
-        XMLStreamReader reader =  factory.createXMLStreamReader(Files.newInputStream(fileToParse.toPath()));
+        XMLStreamReader reader =  factory.createXMLStreamReader(Files.newInputStream(this.fileToParse.toPath()));
 
         List<ProteinEntry> proteinEntryList = new ArrayList<>();
         ProteinEntry proteinEntry = null;
@@ -49,10 +55,6 @@ public class StaxXmlReader {
                 tagContent = reader.getText().trim();
             }
         }
-
-        for (ProteinEntry proteinEntryId : proteinEntryList) {
-            System.out.println(proteinEntryId);
-        }
+        return proteinEntryList;
     }
-
 }
