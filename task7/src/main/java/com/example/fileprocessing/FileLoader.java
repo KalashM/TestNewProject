@@ -24,40 +24,39 @@ public class FileLoader implements Runnable {
         this.location = location;
     }
 
-    public void downloadFromURL() {
-
-        String filename = null;
+    public String getFileName() {
+        String fileName = null;
         try {
-            filename = Paths.get(new URL(url).getPath()).getFileName().toString();
+            fileName = Paths.get(new URL(url).getPath()).getFileName().toString();
         } catch (MalformedURLException e) {
             LOGGER.error(e.getMessage());
         }
+        return fileName;
+    }
+
+    public void downloadFromURL() {
+
+        String filename = getFileName();
 
         String localFilename = location + filename;
 
-        int i = 1;
-
-        while (new File(localFilename).exists()) {
-            try {
-                filename = "Copy " + "(" + i + ") " + Paths.get(new URL(url).getPath()).getFileName().toString();
-            } catch (MalformedURLException e) {
-                LOGGER.error(e.getMessage());
-            }
-            localFilename = location + filename;
-            i++;
-        }
         if (isBrokenUrl()) {
             LOGGER.warn("URL (" + url + ") is broken: " + getReasonIfBroken(getUrlResponseCode()));
             return;
         }
-        LOGGER.info("Downloading is started...");
-        try (InputStream in = new URL(url).openStream()) {
-            Files.copy(in, Paths.get(localFilename));
-            LOGGER.info("Downloading of " + filename + " is completed.");
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.error("Downloading of " + filename + " is failed.");
+        if (!(new File(localFilename).exists())) {
+            LOGGER.info("Downloading is started...");
+            try (InputStream in = new URL(url).openStream()) {
+                Files.copy(in, Paths.get(localFilename));
+                LOGGER.info("Downloading of " + filename + " is completed.");
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage());
+                LOGGER.error("Downloading of " + filename + " is failed.");
+            }
+        } else {
+            LOGGER.warn("The file " + filename + " already exists.");
         }
+
     }
 
     public int getUrlResponseCode()  {

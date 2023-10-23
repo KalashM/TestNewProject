@@ -8,16 +8,33 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class XMLReaderDemo {
 
     private static Logger LOGGER = LoggerFactory.getLogger(XMLReaderDemo.class);
 
+    private static URI linkToBeDownloadedPath;
+
+    static {
+        try {
+            linkToBeDownloadedPath = Thread.currentThread().getContextClassLoader().getResource("xmlFilesToDownload.properties").toURI();
+        } catch (URISyntaxException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    private static final String LOCATION = System.getProperty("user.dir") + "\\Task7Downloads\\";
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, XMLStreamException {
-        File fileToParse = new File(System.getProperty("user.dir") + "\\Task7Downloads\\psd7003.xml");
-        List<ProteinEntry> proteinList = new ArrayList<>();
+        LOGGER.info("Log from {}", XMLReaderDemo.class.getSimpleName());
+        String downloadedFileName = downloadFile();
+        File fileToParse = new File(System.getProperty("user.dir") + "\\Task7Downloads\\" + downloadedFileName);
+        List<ProteinEntry> proteinList;
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "dom":
@@ -35,12 +52,27 @@ public class XMLReaderDemo {
                     break;
                 default:
                     proteinList = null;
-                    LOGGER.info("Not correct parameter entered. Use DOM, SAX or SsAX as a parameter to run the program.");
+                    LOGGER.warn("Not correct parameter entered. Use DOM, SAX or SsAX as a parameter to run the program.");
             }
             printList(proteinList);
         } else {
-            LOGGER.info("Not correct parameter entered. Use DOM, SAX or SsAX as a parameter to run the program.");
+            LOGGER.warn("Not correct parameter entered. Use DOM, SAX or SsAX as a parameter to run the program.");
         }
+    }
+
+    private static String downloadFile() throws IOException {
+
+        String link = Files.readAllLines(Paths.get(linkToBeDownloadedPath)).get(0);
+
+        if (!(new File(LOCATION).exists())) {
+            Files.createDirectory(Paths.get(LOCATION));
+        }
+
+        FileLoader fileLoader = new FileLoader(link, LOCATION);
+        String fileName = fileLoader.getFileName();
+        fileLoader.run();
+
+        return fileName;
     }
 
     public static void printList(List<ProteinEntry> list) {
