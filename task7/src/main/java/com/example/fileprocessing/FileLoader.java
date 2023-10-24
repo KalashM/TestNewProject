@@ -15,7 +15,6 @@ import java.nio.file.Paths;
 public class FileLoader implements Runnable {
 
     private static Logger LOGGER = LoggerFactory.getLogger(FileLoader.class);
-
     private String location;
     private String url;
 

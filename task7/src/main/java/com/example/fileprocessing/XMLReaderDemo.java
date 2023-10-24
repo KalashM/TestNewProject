@@ -40,7 +40,6 @@ public class XMLReaderDemo {
                 case "dom":
                     DomXmlReader domXmlReader = new DomXmlReader(fileToParse);
                     proteinList = domXmlReader.getProteinEntryIdList();
-                    //printList(proteinList);
                     break;
                 case "sax":
                     SaxXmlReader saxXmlReader = new SaxXmlReader(fileToParse);

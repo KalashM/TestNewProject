@@ -28,7 +28,6 @@ public class SaxXmlReader {
         SAXParser parser = parserFactory.newSAXParser();
         MySAXHandler handler = new MySAXHandler();
         parser.parse(this.fileToParse, handler);
-        //parser.parse(new File(System.getProperty("user.dir") + "\\Task7Downloads\\test.xml"), handler);
 
         return handler.getProteinEntryList();
     }

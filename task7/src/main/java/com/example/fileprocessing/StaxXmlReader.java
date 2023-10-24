@@ -23,8 +23,6 @@ public class StaxXmlReader {
 
         factory.setProperty("javax.xml.stream.supportDTD", false);
 
-        // File fileToParse = new File(System.getProperty("user.dir") + "\\Task7Downloads\\psd7003.xml");
-
         XMLStreamReader reader =  factory.createXMLStreamReader(Files.newInputStream(this.fileToParse.toPath()));
 
         List<ProteinEntry> proteinEntryList = new ArrayList<>();
