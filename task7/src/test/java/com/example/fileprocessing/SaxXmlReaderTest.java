@@ -1,6 +1,5 @@
 package com.example.fileprocessing;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,7 +15,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DomXmlReaderTest {
+class SaxXmlReaderTest {
 
     @ParameterizedTest
     @MethodSource("actualProteinEntryList")
@@ -35,10 +34,10 @@ class DomXmlReaderTest {
     }
 
     public static Stream<Arguments> actualProteinEntryList() throws ParserConfigurationException, IOException, SAXException {
-        ClassLoader classLoader = DomXmlReaderTest.class.getClassLoader();
+        ClassLoader classLoader = SaxXmlReaderTest.class.getClassLoader();
         File file = new File(classLoader.getResource("test.xml").getFile());
-        DomXmlReader domXmlReader = new DomXmlReader(file);
+        SaxXmlReader saxXmlReader = new SaxXmlReader(file);
         return Stream.of(
-                Arguments.of(domXmlReader.getProteinEntryIdList()));
+                Arguments.of(saxXmlReader.getProteinEntryIdList()));
     }
 }
