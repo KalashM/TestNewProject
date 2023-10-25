@@ -51,11 +51,11 @@ public class XMLReaderDemo {
                     break;
                 default:
                     proteinList = null;
-                    LOGGER.warn("Not correct parameter entered. Use DOM, SAX or SsAX as a parameter to run the program.");
+                    LOGGER.warn("Not correct parameter entered. Use DOM, SAX or StAX as a parameter to run the program.");
             }
             printList(proteinList);
         } else {
-            LOGGER.warn("Not correct parameter entered. Use DOM, SAX or SsAX as a parameter to run the program.");
+            LOGGER.warn("Not correct parameter entered. Use DOM, SAX or StAX as a parameter to run the program.");
         }
     }
 
