@@ -20,8 +20,11 @@ public class DomXmlReader {
     private List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry = null;
 
-    public DomXmlReader(File file) {
+    private String proteinName;
+
+    public DomXmlReader(File file, String proteinName) {
         this.fileToParse = file;
+        this.proteinName = proteinName;
     }
 
     public List<ProteinEntry> getProteinEntryIdList() throws ParserConfigurationException, IOException, SAXException {
@@ -39,11 +42,8 @@ public class DomXmlReader {
         //Iterating through the nodes and extracting the data.
         NodeList nodeList = document.getDocumentElement().getChildNodes();
 
-        //List<ProteinEntry> proteinEntryList = new ArrayList<>();
-
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            //String proteinEntryId = null;
             this.proteinEntry = new ProteinEntry();
 
             if (node instanceof Element && node.getNodeName().equals("ProteinEntry")) {
@@ -61,11 +61,10 @@ public class DomXmlReader {
                             Node proteinEntryProteinNode = proteinEntryProteinNodeList.item(k);
                             if (proteinEntryProteinNode instanceof Element
                                     && proteinEntryProteinNode.getNodeName().equals("name")
-                                    && proteinEntryProteinNode.getTextContent().equals("cytochrome c")
+                                    && proteinEntryProteinNode.getTextContent().equals(proteinName)
                             ) {
                                 proteinEntry.setId(node.getAttributes().getNamedItem("id").getNodeValue());
                                 proteinEntry.setName("cytochrome c");
-                                //proteinEntryId = node.getAttributes().getNamedItem("id").getNodeValue();
                                 this.proteinEntryList.add(proteinEntry);
                             }
                         }

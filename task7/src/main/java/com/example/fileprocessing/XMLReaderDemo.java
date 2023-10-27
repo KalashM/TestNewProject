@@ -10,33 +10,37 @@ import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class XMLReaderDemo {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(XMLReaderDemo.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(XMLReaderDemo.class);
 
     private static final String LOCATION = System.getProperty("user.dir") + "\\Task7Downloads\\";
-
-    private static String fileName;
+    private static String searchProteinName;
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, XMLStreamException {
         LOGGER.info("Log from {}", XMLReaderDemo.class.getSimpleName());
 
-        if (!(new File(LOCATION).exists())) {
-            Files.createDirectory(Paths.get(LOCATION));
-        }
-
-        Files.copy(getURLStreamToDownload("xmlFilesToDownload.properties"), Paths.get(LOCATION + "//" + fileName));
+        String fileName = new File(getURLToDownload("xmlFilesToDownload.properties")).getName();
 
         File fileToParse = new File(LOCATION + "//" + fileName);
 
+        if (!(new File(LOCATION).exists())) {
+            Files.createDirectory(Paths.get(LOCATION));
+        } else if (!fileToParse.exists()) {
+            Files.copy(new URL(getURLToDownload("xmlFilesToDownload.properties")).openStream(), fileToParse.toPath());
+        } else {
+            LOGGER.info("File " + fileName + " already exists.");
+        }
+
+        searchProteinName = getProteinName("xmlFilesToDownload.properties");
         List<ProteinEntry> proteinList;
         long start, end, elapsedTime, convert;
         long memoryAfterMb, memoryBeforeMb;
+
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "dom":
@@ -44,7 +48,7 @@ public class XMLReaderDemo {
 
                     memoryBeforeMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
 
-                    DomXmlReader domXmlReader = new DomXmlReader(fileToParse);
+                    DomXmlReader domXmlReader = new DomXmlReader(fileToParse, searchProteinName);
                     proteinList = domXmlReader.getProteinEntryIdList();
 
                     memoryAfterMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
@@ -97,22 +101,28 @@ public class XMLReaderDemo {
         }
     }
 
-    public static InputStream getURLStreamToDownload(String propertiesFile) throws IOException {
-        String link;
-        try (InputStream in = XMLReaderDemo.class.getClassLoader().getResourceAsStream(propertiesFile);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-            link = reader.lines().findFirst().get();
+    public static String getURLToDownload(String propertiesFile) throws IOException {
+        try (InputStream input = XMLReaderDemo.class.getClassLoader().getResourceAsStream(propertiesFile)) {
+            Properties props = new Properties();
+            props.load(input);
+            return props.getProperty("url");
         }
-        fileName = new File(link).getName();
-        return new URL(link).openStream();
+    }
+
+    public static String getProteinName(String propertiesFile) throws IOException {
+        try (InputStream input = XMLReaderDemo.class.getClassLoader().getResourceAsStream(propertiesFile)) {
+            Properties props = new Properties();
+            props.load(input);
+            return props.getProperty("proteinName");
+        }
     }
 
     public static void printList(List<ProteinEntry> list) {
         LOGGER.info("The file contains " + list.size() + " entries.");
-        LOGGER.info("ProteinEntry IDs with name \"cytochrome c\": ");
-        StringBuilder listIDs = null;
+        LOGGER.info("ProteinEntry IDs with name \"" + searchProteinName + "\": ");
+        String listIDs = null;
         for (ProteinEntry proteinEntryId: list) {
-            listIDs.append(", ").append(proteinEntryId.getId());
+            listIDs = listIDs + ", " + proteinEntryId.getId();
         }
         LOGGER.info(listIDs.substring(6));
     }
