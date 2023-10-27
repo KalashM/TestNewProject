@@ -7,8 +7,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -19,10 +21,19 @@ public class XMLReaderDemo {
 
     private static final String LOCATION = System.getProperty("user.dir") + "\\Task7Downloads\\";
 
+    private static String fileName;
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, XMLStreamException {
         LOGGER.info("Log from {}", XMLReaderDemo.class.getSimpleName());
-        String downloadedFileName = downloadFile();
-        File fileToParse = new File(System.getProperty("user.dir") + "\\Task7Downloads\\" + downloadedFileName);
+
+        if (!(new File(LOCATION).exists())) {
+            Files.createDirectory(Paths.get(LOCATION));
+        }
+
+        Files.copy(getURLStreamToDownload("xmlFilesToDownload.properties"), Paths.get(LOCATION + "//" + fileName));
+
+        File fileToParse = new File(LOCATION + "//" + fileName);
+
         List<ProteinEntry> proteinList;
         long start, end, elapsedTime, convert;
         long memoryAfterMb, memoryBeforeMb;
@@ -86,30 +97,22 @@ public class XMLReaderDemo {
         }
     }
 
-    private static String downloadFile() throws IOException {
+    public static InputStream getURLStreamToDownload(String propertiesFile) throws IOException {
         String link;
-        try (InputStream in = XMLReaderDemo.class.getClassLoader().getResourceAsStream("xmlFilesToDownload.properties");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-            link = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        try (InputStream in = XMLReaderDemo.class.getClassLoader().getResourceAsStream(propertiesFile);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            link = reader.lines().findFirst().get();
         }
-
-        if (!(new File(LOCATION).exists())) {
-            Files.createDirectory(Paths.get(LOCATION));
-        }
-
-        FileLoader fileLoader = new FileLoader(link, LOCATION);
-        String fileName = fileLoader.getFileName();
-        fileLoader.run();
-
-        return fileName;
+        fileName = new File(link).getName();
+        return new URL(link).openStream();
     }
 
     public static void printList(List<ProteinEntry> list) {
         LOGGER.info("The file contains " + list.size() + " entries.");
         LOGGER.info("ProteinEntry IDs with name \"cytochrome c\": ");
-        String listIDs = null;
+        StringBuilder listIDs = null;
         for (ProteinEntry proteinEntryId: list) {
-            listIDs = listIDs + ", " + proteinEntryId.getId();
+            listIDs.append(", ").append(proteinEntryId.getId());
         }
         LOGGER.info(listIDs.substring(6));
     }

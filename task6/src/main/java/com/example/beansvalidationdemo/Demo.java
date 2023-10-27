@@ -28,7 +28,7 @@ public class Demo {
         String loc = localeProps.getProperty("locale");
 
         Locale locale = Locale.ROOT;
-        if (!loc.isBlank() && !loc.isEmpty()) {
+        if (!loc.isEmpty()) {
             if (loc.equalsIgnoreCase("de")) {
                 locale = Locale.GERMAN;
             } else if (loc.equalsIgnoreCase("ukr")) {
