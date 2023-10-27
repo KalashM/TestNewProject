@@ -122,7 +122,7 @@ public class XMLReaderDemo {
         LOGGER.info("ProteinEntry IDs with name \"" + searchProteinName + "\": ");
         String listIDs = null;
         for (ProteinEntry proteinEntryId: list) {
-            listIDs = listIDs + ", " + proteinEntryId.getId();
+            listIDs = listIDs + ", " + proteinEntryId.id();
         }
         LOGGER.info(listIDs.substring(6));
     }
