@@ -24,7 +24,7 @@ class StaxXmlReaderTest {
         assertEquals(1, actualList.size());
     }
 
-    @ParameterizedTest
+    /*@ParameterizedTest
     @MethodSource("actualProteinEntryList")
     void getPoteinEntryIdListEntryID(List<ProteinEntry> actualList) {
         List<String> idList = new ArrayList<>();
@@ -32,13 +32,13 @@ class StaxXmlReaderTest {
             idList.add(proteinEntry.getId());
         }
         assertTrue(idList.contains("CCHU"));
-    }
+    }*/
 
-    public static Stream<Arguments> actualProteinEntryList() throws IOException, XMLStreamException {
+    /*public static Stream<Arguments> actualProteinEntryList() throws IOException, XMLStreamException {
         ClassLoader classLoader = DomXmlReaderTest.class.getClassLoader();
         File file = new File(classLoader.getResource("test.xml").getFile());
         StaxXmlReader staxXmlReader = new StaxXmlReader(file);
         return Stream.of(
                 Arguments.of(staxXmlReader.getProteinEntryIdList()));
-    }
+    }*/
 }

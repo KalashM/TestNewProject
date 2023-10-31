@@ -1,7 +1,6 @@
 package com.example.fileprocessing;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -9,6 +8,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,18 +19,18 @@ import java.util.List;
 
 public class DomXmlReader {
 
-    private File fileToParse;
-    private List<ProteinEntry> proteinEntryList = new ArrayList<>();
+    private final File fileToParse;
+    private final List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry = null;
 
-    private String proteinName;
+    private final String proteinName;
 
     public DomXmlReader(File file, String proteinName) {
         this.fileToParse = file;
         this.proteinName = proteinName;
     }
 
-    public List<ProteinEntry> getProteinEntryIdList() throws ParserConfigurationException, IOException, SAXException {
+    public List<ProteinEntry> getProteinEntryIdList() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
 
         //Get the DOM Builder Factory
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -39,39 +42,18 @@ public class DomXmlReader {
         //Load and Parse the XML document
         Document document = builder.parse(this.fileToParse);
 
-        //Iterating through the nodes and extracting the data.
-        NodeList nodeList = document.getDocumentElement().getChildNodes();
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        String expression = "//ProteinEntry[descendant::protein[descendant::name[text()=" + "'" + proteinName + "'" + "]]]";
+
+        NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            this.proteinEntry = new ProteinEntry();
-
-            if (node instanceof Element && node.getNodeName().equals("ProteinEntry")) {
-                NodeList proteinEntryNodeList = node.getChildNodes();
-
-                for (int j = 0; j < proteinEntryNodeList.getLength(); j++) {
-                    Node proteinEntryNode = proteinEntryNodeList.item(j);
-
-                    if (proteinEntryNode instanceof Element
-                            && proteinEntryNode.getNodeName().equals("protein")
-                    ) {
-                        NodeList proteinEntryProteinNodeList = proteinEntryNode.getChildNodes();
-
-                        for (int k = 0; k < proteinEntryProteinNodeList.getLength(); k++) {
-                            Node proteinEntryProteinNode = proteinEntryProteinNodeList.item(k);
-                            if (proteinEntryProteinNode instanceof Element
-                                    && proteinEntryProteinNode.getNodeName().equals("name")
-                                    && proteinEntryProteinNode.getTextContent().equals(proteinName)
-                            ) {
-                                proteinEntry.setId(node.getAttributes().getNamedItem("id").getNodeValue());
-                                proteinEntry.setName("cytochrome c");
-                                this.proteinEntryList.add(proteinEntry);
-                            }
-                        }
-                    }
-                }
-            }
+            String id = node.getAttributes().getNamedItem("id").getNodeValue();
+            proteinEntry = new ProteinEntry(id, proteinName);
+            proteinEntryList.add(proteinEntry);
         }
+
         return proteinEntryList;
     }
 }

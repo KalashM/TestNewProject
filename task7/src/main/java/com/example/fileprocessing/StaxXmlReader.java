@@ -1,3 +1,4 @@
+/*
 package com.example.fileprocessing;
 
 import javax.xml.stream.XMLInputFactory;
@@ -13,6 +14,8 @@ import java.util.List;
 public class StaxXmlReader {
 
     private static File fileToParse;
+    private final List<ProteinEntry> proteinEntryList = new ArrayList<>();
+    private ProteinEntry proteinEntry = null;
 
     public StaxXmlReader(File file) {
         this.fileToParse = file;
@@ -25,29 +28,29 @@ public class StaxXmlReader {
 
         XMLStreamReader reader =  factory.createXMLStreamReader(Files.newInputStream(this.fileToParse.toPath()));
 
-        List<ProteinEntry> proteinEntryList = new ArrayList<>();
-        ProteinEntry proteinEntry = null;
         boolean isProtein = false;
         String tagContent = null;
+        String id = null, name;
 
         while (reader.hasNext()) {
             int event = reader.next();
             if (event == XMLStreamConstants.START_ELEMENT) {
                 if (reader.getLocalName().equalsIgnoreCase("ProteinEntry")) {
-                    proteinEntry = new ProteinEntry();
-                    proteinEntry.setId(reader.getAttributeValue(0));
+                    id = reader.getAttributeValue(0);
                 } else if (reader.getLocalName().equalsIgnoreCase("protein")) {
                     isProtein = true;
                 }
             } else if (event == XMLStreamConstants.END_ELEMENT) {
-                if (reader.getLocalName().equalsIgnoreCase("ProteinEntry")) {
-                    if (proteinEntry.getName().equals("cytochrome c")) {
-                        proteinEntryList.add(proteinEntry);
-                    }
+                if (isProtein && reader.getLocalName().equalsIgnoreCase("name")) {
+                    //proteinEntry.setName(tagContent);
+                    name = tagContent;
+                    proteinEntry = new ProteinEntry(id, name);
                 } else if (reader.getLocalName().equalsIgnoreCase("protein")) {
                     isProtein = false;
-                } else if (isProtein && reader.getLocalName().equalsIgnoreCase("name")) {
-                    proteinEntry.setName(tagContent);
+                } else if (reader.getLocalName().equalsIgnoreCase("ProteinEntry")) {
+                    if (proteinEntry.name.equals("cytochrome c")) {
+                        proteinEntryList.add(proteinEntry);
+                    }
                 }
             } else if (event == XMLStreamConstants.CHARACTERS) {
                 tagContent = reader.getText().trim();
@@ -56,3 +59,4 @@ public class StaxXmlReader {
         return proteinEntryList;
     }
 }
+*/

@@ -6,6 +6,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
@@ -21,7 +22,7 @@ public class XMLReaderDemo {
     private static final String LOCATION = System.getProperty("user.dir") + "\\Task7Downloads\\";
     private static String searchProteinName;
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, XMLStreamException {
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, XMLStreamException, XPathExpressionException {
         LOGGER.info("Log from {}", XMLReaderDemo.class.getSimpleName());
 
         String fileName = new File(getURLToDownload("xmlFilesToDownload.properties")).getName();
@@ -64,8 +65,8 @@ public class XMLReaderDemo {
 
                     memoryBeforeMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
 
-                    SaxXmlReader saxXmlReader = new SaxXmlReader(fileToParse);
-                    proteinList = saxXmlReader.getProteinEntryIdList();
+                    SaxXmlReaderNew saxXmlReader = new SaxXmlReaderNew(fileToParse, searchProteinName);
+                    proteinList = saxXmlReader.getProteinEntryIdListByName();
 
                     memoryAfterMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
                     LOGGER.info("Memory increased: " + (memoryAfterMb - memoryBeforeMb) + "Mb");
@@ -75,7 +76,7 @@ public class XMLReaderDemo {
                     convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
                     LOGGER.info("Time taken to parse file and find requested data using SAX = " + convert + " seconds");
                     break;
-                case "stax":
+                /*case "stax":
                     start = System.nanoTime();
 
                     memoryBeforeMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
@@ -90,7 +91,7 @@ public class XMLReaderDemo {
                     elapsedTime = end - start;
                     convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
                     LOGGER.info("Time taken to parse file and find requested data using StAX = " + convert + " seconds");
-                    break;
+                    break;*/
                 default:
                     proteinList = null;
                     LOGGER.warn("Not correct parameter entered. Use DOM, SAX or StAX as a parameter to run the program.");

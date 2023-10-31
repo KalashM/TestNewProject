@@ -18,7 +18,7 @@ public class SaxXmlReader {
 
     public SaxXmlReader(File file) {
         this.fileToParse = file;
-    }
+     }
 
     public List<ProteinEntry> getProteinEntryIdList() throws SAXException, ParserConfigurationException, IOException {
 
@@ -39,6 +39,8 @@ class MySAXHandler extends DefaultHandler {
     private boolean isProtein = false;
     private String tagContent = null;
 
+    private String id, name;
+
     private List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry = null;
 
@@ -49,8 +51,8 @@ class MySAXHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         if (qName.equals("ProteinEntry")) {
-            proteinEntry = new ProteinEntry();
-            proteinEntry.setId(attributes.getValue("id"));
+            id = attributes.getValue("id");
+            //proteinEntry = new ProteinEntry();
         } else if (qName.equals("protein")) {
             isProtein = true;
         }
@@ -59,13 +61,14 @@ class MySAXHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) {
         if (qName.equals("ProteinEntry")) {
-            if (proteinEntry.getName().equals("cytochrome c")) {
+            if (proteinEntry.name().equals("cytochrome c")) {
+                proteinEntry = new ProteinEntry(id, name);
                 proteinEntryList.add(proteinEntry);
             }
         } else if (qName.equals("protein")) {
             isProtein = false;
         } else if (isProtein && qName.equals("name")) {
-            proteinEntry.setName(tagContent);
+            name = tagContent;
         }
     }
 
