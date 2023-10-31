@@ -1,5 +1,6 @@
-package com.example.fileprocessing;
+package com.example.fileprocessing.parsers.sax.handlers;
 
+import com.example.fileprocessing.model.ProteinEntry;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

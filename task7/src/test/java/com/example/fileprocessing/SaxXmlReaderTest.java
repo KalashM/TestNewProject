@@ -1,6 +1,7 @@
 package com.example.fileprocessing;
 
-import org.junit.jupiter.api.Test;
+import com.example.fileprocessing.model.ProteinEntry;
+import com.example.fileprocessing.parsers.sax.SaxXmlReader;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

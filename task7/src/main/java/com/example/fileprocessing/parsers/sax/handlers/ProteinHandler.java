@@ -1,7 +1,7 @@
-package com.example.fileprocessing;
+package com.example.fileprocessing.parsers.sax.handlers;
 
+import com.example.fileprocessing.parsers.sax.handlers.NameHandler;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class ProteinHandler extends DefaultHandler {

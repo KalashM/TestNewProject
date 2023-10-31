@@ -1,5 +1,6 @@
-package com.example.fileprocessing;
+package com.example.fileprocessing.parsers.dom;
 
+import com.example.fileprocessing.model.ProteinEntry;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

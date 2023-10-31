@@ -1,5 +1,6 @@
-/*
-package com.example.fileprocessing;
+package com.example.fileprocessing.parsers.stax;
+
+import com.example.fileprocessing.model.ProteinEntry;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -13,12 +14,15 @@ import java.util.List;
 
 public class StaxXmlReader {
 
-    private static File fileToParse;
+    private final File fileToParse;
     private final List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry = null;
+    private final String proteinName;
 
-    public StaxXmlReader(File file) {
+    public StaxXmlReader(File file, String proteinName) {
         this.fileToParse = file;
+        this.proteinName = proteinName;
+
     }
 
     public List<ProteinEntry> getProteinEntryIdList() throws XMLStreamException, IOException {
@@ -48,7 +52,7 @@ public class StaxXmlReader {
                 } else if (reader.getLocalName().equalsIgnoreCase("protein")) {
                     isProtein = false;
                 } else if (reader.getLocalName().equalsIgnoreCase("ProteinEntry")) {
-                    if (proteinEntry.name.equals("cytochrome c")) {
+                    if (proteinEntry.name().equals("cytochrome c")) {
                         proteinEntryList.add(proteinEntry);
                     }
                 }
@@ -59,4 +63,3 @@ public class StaxXmlReader {
         return proteinEntryList;
     }
 }
-*/

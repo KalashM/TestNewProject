@@ -1,5 +1,7 @@
-package com.example.fileprocessing;
+package com.example.fileprocessing.parsers.sax;
 
+import com.example.fileprocessing.model.ProteinEntry;
+import com.example.fileprocessing.parsers.sax.handlers.ProteinEntryHandler;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

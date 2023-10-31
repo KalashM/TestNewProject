@@ -1,5 +1,8 @@
 package com.example.fileprocessing;
 
+import com.example.fileprocessing.model.ProteinEntry;
+import com.example.fileprocessing.parsers.dom.DomXmlReader;
+import com.example.fileprocessing.parsers.sax.SaxXmlReaderNew;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
