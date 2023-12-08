@@ -3,6 +3,7 @@ package com.example.fileprocessing;
 import com.example.fileprocessing.model.ProteinEntry;
 import com.example.fileprocessing.parsers.dom.DomXmlReader;
 import com.example.fileprocessing.parsers.sax.SaxXmlReaderNew;
+import com.example.fileprocessing.parsers.stax.StaxXmlReaderNew;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -79,12 +80,12 @@ public class XMLReaderDemo {
                     convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
                     LOGGER.info("Time taken to parse file and find requested data using SAX = " + convert + " seconds");
                     break;
-                /*case "stax":
+                case "stax":
                     start = System.nanoTime();
 
                     memoryBeforeMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
 
-                    StaxXmlReader staxXmlReader = new StaxXmlReader(fileToParse);
+                    StaxXmlReaderNew staxXmlReader = new StaxXmlReaderNew(fileToParse, searchProteinName);
                     proteinList = staxXmlReader.getProteinEntryIdList();
 
                     memoryAfterMb = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024;
@@ -94,7 +95,7 @@ public class XMLReaderDemo {
                     elapsedTime = end - start;
                     convert = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
                     LOGGER.info("Time taken to parse file and find requested data using StAX = " + convert + " seconds");
-                    break;*/
+                    break;
                 default:
                     proteinList = null;
                     LOGGER.warn("Not correct parameter entered. Use DOM, SAX or StAX as a parameter to run the program.");
