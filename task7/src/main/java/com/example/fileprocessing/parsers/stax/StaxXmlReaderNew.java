@@ -11,7 +11,6 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class StaxXmlReaderNew {
     private final List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry;
     private final String proteinName;
-    private String id, name;
+   // private
     private boolean isProtein = false;
 
     public StaxXmlReaderNew(File file, String proteinName) {
@@ -35,7 +34,7 @@ public class StaxXmlReaderNew {
         XMLInputFactory factory = XMLInputFactory.newInstance();
         factory.setProperty("javax.xml.stream.supportDTD", false);
         XMLEventReader reader = factory.createXMLEventReader(Files.newInputStream(fileToParse.toPath()));
-
+        String id = null, name;
         while (reader.hasNext()) {
 
             XMLEvent event = reader.nextEvent();
