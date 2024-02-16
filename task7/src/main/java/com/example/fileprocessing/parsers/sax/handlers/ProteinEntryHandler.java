@@ -10,7 +10,8 @@ import java.util.List;
 
 public class ProteinEntryHandler extends DefaultHandler {
     public static final String PROTEINENTRY = "ProteinEntry";
-    private String id, name;
+    private String id;
+    private String name;
     private List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry = null;
     private ProteinHandler proteinHandler = new ProteinHandler();

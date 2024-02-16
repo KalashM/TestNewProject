@@ -43,5 +43,4 @@ public class SaxXmlReaderNew {
         return filteredList;
     }
 
-
 }

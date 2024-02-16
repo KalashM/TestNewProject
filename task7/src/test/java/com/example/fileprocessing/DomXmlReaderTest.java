@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,15 +30,15 @@ class DomXmlReaderTest {
     void getPoteinEntryIdListEntryID(List<ProteinEntry> actualList) {
         List<String> idList = new ArrayList<>();
         for (ProteinEntry proteinEntry: actualList) {
-            idList.add(proteinEntry.getId());
+            idList.add(proteinEntry.id());
         }
         assertTrue(idList.contains("CCHU"));
     }
 
-    public static Stream<Arguments> actualProteinEntryList() throws ParserConfigurationException, IOException, SAXException {
+    public static Stream<Arguments> actualProteinEntryList() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
         ClassLoader classLoader = DomXmlReaderTest.class.getClassLoader();
-        File file = new File(classLoader.getResource("test.xml").getFile());
-        DomXmlReader domXmlReader = new DomXmlReader(file);
+        File file = new File(classLoader.getResource("test.xml").getPath());
+        DomXmlReader domXmlReader = new DomXmlReader(file, "CCHU");
         return Stream.of(
                 Arguments.of(domXmlReader.getProteinEntryIdList()));
     }
