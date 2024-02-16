@@ -3,7 +3,7 @@ package com.example.classloader;
 import java.util.ArrayList;
 
 public class BaseCalculator implements Calculable {
-    private ArrayList parametersList;
+    private ArrayList<Double> parametersList;
     private String description;
 
     @Override
@@ -21,7 +21,7 @@ public class BaseCalculator implements Calculable {
         return 0;
     }
 
-    public void setParametersList(ArrayList parametersList) {
+    public void setParametersList(ArrayList<Double> parametersList) {
         this.parametersList = parametersList;
     }
 
