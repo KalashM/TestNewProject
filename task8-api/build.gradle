@@ -12,5 +12,5 @@ dependencies {
 javadoc {
     classpath += sourceSets.test.compileClasspath
     source += sourceSets.test.allJava
-    destinationDir = reporting.file("task8/build/docs/javadoc")
+    destinationDir = reporting.file("task8-api/build/docs/javadoc")
 }
