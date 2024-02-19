@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(path: ':task8-mod1')
+    implementation project(path: ':task8-mod2')
+    implementation project(path: ':task8-mod3')
+    implementation project(path: ':task8-api')
+}
