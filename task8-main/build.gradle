@@ -4,3 +4,8 @@ dependencies {
     implementation project(path: ':task8-mod3')
     implementation project(path: ':task8-api')
 }
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.classloader.app.Demo'
+    }
+}
