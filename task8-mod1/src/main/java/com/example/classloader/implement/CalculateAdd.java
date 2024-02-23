@@ -9,7 +9,14 @@ public class CalculateAdd implements Calculable {
 
     private ArrayList<Double> parametersList;
 
+    public CalculateAdd() {
+    }
+
     public CalculateAdd(ArrayList<Double> parametersList) {
+        this.parametersList = parametersList;
+    }
+
+    public void setParametersList(ArrayList<Double> parametersList) {
         this.parametersList = parametersList;
     }
 
