@@ -11,4 +11,6 @@ jar {
     manifest {
         attributes 'Main-Class': 'com.example.classloader.app.Demo'
     }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }

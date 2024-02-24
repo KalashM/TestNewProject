@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-@SuppressWarnings("unchecked")
+//@SuppressWarnings("unchecked")
 public class Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(Demo.class);
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
-        List<File> jars = Arrays.asList(new File("task8-main/build/libs/moduls").listFiles());
+        List<File> jars = Arrays.asList(new File("D:\\Java\\testFolder\\moduls").listFiles());
         URL[] urls = new URL[jars.size()];
         for (int i = 0; i < jars.size(); i++) {
             try {
@@ -32,10 +32,10 @@ public class Demo {
             }
         }
         URLClassLoader childClassLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader());
-        Class.forName("com.example.classloader.Calculable", true, childClassLoader);
+        /*Class.forName("com.example.classloader.Calculable", true, childClassLoader);
         Class.forName("com.example.classloader.implement.CalculateAdd", true, childClassLoader);
         Class.forName("com.example.classloader.implement.CalculateMultiply", true, childClassLoader);
-        Class.forName("com.example.classloader.implement.CalculateSquareRoot", true, childClassLoader);
+        Class.forName("com.example.classloader.implement.CalculateSquareRoot", true, childClassLoader);*/
         Thread.currentThread().setContextClassLoader(childClassLoader);
 
         //TO DO: Get the list of available operations programmatically.
