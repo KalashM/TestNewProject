@@ -2,26 +2,23 @@ package com.example.classloader.app;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
 //@SuppressWarnings("unchecked")
 public class Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(Demo.class);
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
-        List<File> jars = Arrays.asList(new File("D:\\Java\\testFolder\\moduls").listFiles());
+        String pathName = getModulsLocation("location.properties");
+        List<File> jars = Arrays.asList(new File(pathName).listFiles());
         URL[] urls = new URL[jars.size()];
         for (int i = 0; i < jars.size(); i++) {
             try {
@@ -74,5 +71,13 @@ public class Demo {
         Object calculate = constructor.newInstance(paramList);
         Method getResultmethod = myClass.getMethod("getResult");
         return (double) getResultmethod.invoke(calculate);
+    }
+
+    private static String getModulsLocation(String propertiesFile) throws IOException {
+        try (InputStream input = Demo.class.getClassLoader().getResourceAsStream(propertiesFile)) {
+            Properties props = new Properties();
+            props.load(input);
+            return props.getProperty("modulsLocation");
+        }
     }
 }
