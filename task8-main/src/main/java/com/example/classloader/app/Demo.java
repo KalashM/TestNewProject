@@ -32,20 +32,13 @@ public class Demo {
             }
         }
         URLClassLoader childClassLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader());
-        /*Class.forName("com.example.classloader.Calculable", true, childClassLoader);
-        Class.forName("com.example.classloader.implement.CalculateAdd", true, childClassLoader);
-        Class.forName("com.example.classloader.implement.CalculateMultiply", true, childClassLoader);
-        Class.forName("com.example.classloader.implement.CalculateSquareRoot", true, childClassLoader);*/
         Thread.currentThread().setContextClassLoader(childClassLoader);
 
-        //TO DO: Get the list of available operations programmatically.
         LOGGER.info("Enter the operation name for calculation (Add/Multiply/Square Root): ");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String operation = reader.readLine();
-        //TO DO: check operation if correct
 
         LOGGER.info("Enter the parameters to calculate the result of operation: ");
-
         Scanner in = new Scanner(System.in);
 
         ArrayList<Double> paramList = new ArrayList<>();
@@ -53,31 +46,30 @@ public class Demo {
             double param = in.nextDouble();
             paramList.add(param);
         }
-
         LOGGER.info(paramList.toString());
 
-        double result = 0;
-        switch (operation) {
-            case "Add":
-                result = performCalculation(childClassLoader, "Add", paramList);
-                break;
-            /*case "Multiply":
-                calculate = new CalculateMultiply(paramList);
-                result = calculate.getResult();
-                break;
-            case "Square Root":
-                calculate = new CalculateSquareRoot(paramList);
-                result = calculate.getResult();
-                break;*/
-            default:
-                LOGGER.info("The operation name entered is not correct!");
-        }
+        double result = performCalculation(childClassLoader, operation, paramList);
         LOGGER.info(String.valueOf(result));
     }
 
     private static double performCalculation(URLClassLoader childClassLoader, String operationName, ArrayList<Double> paramList) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+
+        switch (operationName.toLowerCase()) {
+            case "add":
+                return getCalculationResult(childClassLoader, "com.example.classloader.implement.CalculateAdd", paramList);
+            case "multiply":
+                return getCalculationResult(childClassLoader, "com.example.classloader.implement.CalculateMultiply", paramList);
+            case "square root":
+                return getCalculationResult(childClassLoader, "com.example.classloader.implement.CalculateSquareRoot", paramList);
+            default:
+                LOGGER.info("The operation name entered is not correct!");
+                return 0;
+        }
+    }
+
+    private static double getCalculationResult(URLClassLoader childClassLoader, String binaryClassName, ArrayList<Double> paramList) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         Class[] parameterType = new Class[]{ArrayList.class};
-        Class myClass = childClassLoader.loadClass("com.example.classloader.implement.CalculateAdd");
+        Class myClass = childClassLoader.loadClass(binaryClassName);
         Constructor constructor = myClass.getConstructor(parameterType);
         Object calculate = constructor.newInstance(paramList);
         Method getResultmethod = myClass.getMethod("getResult");
