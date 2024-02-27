@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
 
-//@SuppressWarnings("unchecked")
 public class Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(Demo.class);
 
@@ -35,7 +34,7 @@ public class Demo {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String operation = reader.readLine();
 
-        LOGGER.info("Enter the parameters to calculate the result of operation: ");
+        LOGGER.info("Enter the parameters to calculate the result of operation (press any character to exit): ");
         Scanner in = new Scanner(System.in);
 
         ArrayList<Double> paramList = new ArrayList<>();
@@ -46,7 +45,7 @@ public class Demo {
         LOGGER.info(paramList.toString());
 
         double result = performCalculation(childClassLoader, operation, paramList);
-        LOGGER.info(String.valueOf(result));
+        LOGGER.info("The result is " + result);
     }
 
     private static double performCalculation(URLClassLoader childClassLoader, String operationName, ArrayList<Double> paramList) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
