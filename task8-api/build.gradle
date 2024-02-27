@@ -1,0 +1,16 @@
+plugins {
+    id 'java-library'
+}
+dependencies {
+    api 'org.apache.httpcomponents:httpclient:4.5.7'
+    implementation 'org.apache.commons:commons-lang3:3.5'
+}
+/*jar {
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}*/
+
+javadoc {
+    classpath += sourceSets.test.compileClasspath
+    source += sourceSets.test.allJava
+    destinationDir = reporting.file("task8-api/build/docs/javadoc")
+}

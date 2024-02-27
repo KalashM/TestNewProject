@@ -26,10 +26,10 @@ class SaxXmlReaderTest {
 
     @ParameterizedTest
     @MethodSource("actualProteinEntryList")
-    void getPoteinEntryIdListEntryID(List<ProteinEntry> actualList) {
+    void getProteinEntryIdListEntryID(List<ProteinEntry> actualList) {
         List<String> idList = new ArrayList<>();
         for (ProteinEntry proteinEntry: actualList) {
-            idList.add(proteinEntry.getId());
+            idList.add(proteinEntry.id());
         }
         assertTrue(idList.contains("CCHU"));
     }

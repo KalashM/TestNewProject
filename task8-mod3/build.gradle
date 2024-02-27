@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(path: ':task8-api')
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+}

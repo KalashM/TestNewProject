@@ -40,7 +40,8 @@ class MySAXHandler extends DefaultHandler {
     private boolean isProtein = false;
     private String tagContent = null;
 
-    private String id, name;
+    private String id;
+    private String name;
 
     private List<ProteinEntry> proteinEntryList = new ArrayList<>();
     private ProteinEntry proteinEntry = null;

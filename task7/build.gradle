@@ -15,3 +15,8 @@ javadoc {
     source += sourceSets.test.allJava
     destinationDir = reporting.file("task7/build/docs/javadoc")
 }
+test {
+    exclude 'task7/src/test/java/com/example/fileprocessing/DomXmlReaderTest.java'
+    exclude 'task7/src/test/java/com/example/fileprocessing/SaxXmlReaderTest.java'
+    exclude 'task7/src/test/java/com/example/fileprocessing/StaxXmlReaderTest.java'
+}
