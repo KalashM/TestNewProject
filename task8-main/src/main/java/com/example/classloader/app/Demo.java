@@ -58,7 +58,7 @@ public class Demo {
             case "square root":
                 return getCalculationResult(childClassLoader, "com.example.classloader.implement.CalculateSquareRoot", paramList);
             default:
-                LOGGER.info("The operation name entered is not correct!");
+                LOGGER.warn("The operation name entered is not correct!");
                 return 0;
         }
     }
